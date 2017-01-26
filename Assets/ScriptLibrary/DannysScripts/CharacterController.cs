@@ -8,7 +8,7 @@ public class CharacterController : MonoBehaviour {
     public float rotateVel = 100;
     Quaternion targetRotation;
     Rigidbody rbody;
-    float forwardInput, turnInput;
+    float forwardInput,SideWaysInput, turnInput;
     public Quaternion TargetRotation
     {
         get { return targetRotation; }
@@ -27,16 +27,23 @@ public class CharacterController : MonoBehaviour {
     {
         //W And S keys also LYAxis
         //forwardInput = Input.GetAxis("Vertical");
-        forwardInput = Input.GetAxis("LXAxis");
+        forwardInput = Input.GetAxis("LYAxis");
 
-        //A and D keys also lXAxis Will change later
+        //A And D keys also LXAxis
+        //SideWaysInput = Input.GetAxis("Horizontal");
+        SideWaysInput = Input.GetAxis("LXAxis");
+        //MouseInput keys also lXAxis Will change later
         //turnInput = Input.GetAxis("Horizontal");
         turnInput = Input.GetAxis("RXAxis");
 
     }
-	
-	// Update is called once per frame
-	void Update () {
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        Debug.Log("i hit something");
+    }
+
+    // Update is called once per frame
+    void Update () {
         GetInput();
         Turn();
 	}
@@ -50,6 +57,11 @@ public class CharacterController : MonoBehaviour {
         {
             //move
             rbody.velocity = transform.forward * forwardInput * ForwardVel;
+
+        }
+        else if (Mathf.Abs(SideWaysInput) > inputDelay)
+        {
+            rbody.velocity = transform.right * SideWaysInput * ForwardVel;
         }
         else
             rbody.velocity = Vector3.zero;
