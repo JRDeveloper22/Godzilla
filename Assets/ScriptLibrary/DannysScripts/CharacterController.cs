@@ -26,15 +26,15 @@ public class CharacterController : MonoBehaviour {
     void GetInput()
     {
         //W And S keys also LYAxis
-        //forwardInput = Input.GetAxis("Vertical");
-        forwardInput = Input.GetAxis("LYAxis");
+        forwardInput = Input.GetAxis("Vertical");
+        //forwardInput = Input.GetAxis("LYAxis");
 
         //A And D keys also LXAxis
         //SideWaysInput = Input.GetAxis("Horizontal");
-        SideWaysInput = Input.GetAxis("LXAxis");
+        //SideWaysInput = Input.GetAxis("LXAxis");
         //MouseInput keys also lXAxis Will change later
-        //turnInput = Input.GetAxis("Horizontal");
-        turnInput = Input.GetAxis("RXAxis");
+        turnInput = Input.GetAxis("Horizontal");
+        //turnInput = Input.GetAxis("RXAxis");
 
     }
     private void OnControllerColliderHit(ControllerColliderHit hit)
@@ -59,10 +59,10 @@ public class CharacterController : MonoBehaviour {
             rbody.velocity = transform.forward * forwardInput * ForwardVel;
 
         }
-        else if (Mathf.Abs(SideWaysInput) > inputDelay)
+       /* else if (Mathf.Abs(SideWaysInput) > inputDelay)
         {
             rbody.velocity = transform.right * SideWaysInput * ForwardVel;
-        }
+        }*/
         else
             rbody.velocity = Vector3.zero;
     }

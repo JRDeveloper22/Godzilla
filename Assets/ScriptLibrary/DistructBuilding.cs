@@ -5,8 +5,9 @@ public class DistructBuilding : MonoBehaviour {
     public float BuildingHealth = 0;
     public GameObject prefab;
     public GameObject Box;
-    private float ExposionPower = 20.0f;
+    private float ExposionPower = 10.0f;
     private float ExplosionRadius = 5.0f;
+    Rigidbody Rbox;
     void Start ()
     {
         Box = this.gameObject;
@@ -32,6 +33,8 @@ public class DistructBuilding : MonoBehaviour {
         if(!Box.GetComponent<Rigidbody>())
         {
             Box.AddComponent<Rigidbody>();
+            Rbox = gameObject.GetComponent<Rigidbody>();
+            Rbox.useGravity = true;
             GameObject smoke = (GameObject)Instantiate(prefab, Box.transform.position, Box.transform.rotation);
             Destroy(smoke, 2.0f);
         }
@@ -49,7 +52,7 @@ public class DistructBuilding : MonoBehaviour {
         Rigidbody rb = gameObject.GetComponent<Rigidbody>();
         if (rb == null)
             Debug.Log("there is no rigidbody on this gameobject");
-        rb.AddExplosionForce(ExposionPower,explosionPos, ExplosionRadius,3.0f);
+        rb.AddExplosionForce(ExposionPower,explosionPos, ExplosionRadius,0.2f);
 
     }
     public void MinusHealth(float amount)
@@ -59,7 +62,7 @@ public class DistructBuilding : MonoBehaviour {
     IEnumerator Despawner()
     {
         
-        yield return new WaitForSeconds(15);
+        yield return new WaitForSeconds(1);
         //make the dissolve shader
         Destroy(gameObject);
     }
