@@ -4,10 +4,10 @@ using System.Collections;
 public class BuildingHealth : MonoBehaviour {
 
     public float healthAmount = 100;
-    public  DistructBuilding DB;
+    public BuildingAtributes DB;
     void Start()
     {
-        DB = gameObject.GetComponent<DistructBuilding>();
+        DB = gameObject.GetComponent<BuildingAtributes>();
         //Debug.Log(DB.name);
         if (DB == null)
         {

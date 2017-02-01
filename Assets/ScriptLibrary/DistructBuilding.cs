@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class DistructBuilding : MonoBehaviour {
-    public float BuildingHealth = 0;
+    public BuildingAtributes BA;
     public GameObject prefab;
     public GameObject Box;
     private float ExposionPower = 10.0f;
@@ -10,12 +10,13 @@ public class DistructBuilding : MonoBehaviour {
     Rigidbody Rbox;
     void Start ()
     {
+        BA = gameObject.GetComponent<BuildingAtributes>();
         Box = this.gameObject;
     }
 
 	void Update ()
     {
-        if (BuildingHealth > 0)
+        if (BA.BuildingHealth > 0)
         {
             
             RemoveRigidBody();
@@ -54,10 +55,6 @@ public class DistructBuilding : MonoBehaviour {
             Debug.Log("there is no rigidbody on this gameobject");
         rb.AddExplosionForce(ExposionPower,explosionPos, ExplosionRadius,0.2f);
 
-    }
-    public void MinusHealth(float amount)
-    {
-        BuildingHealth -= amount;
     }
     IEnumerator Despawner()
     {
