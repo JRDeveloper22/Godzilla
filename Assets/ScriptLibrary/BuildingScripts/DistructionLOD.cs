@@ -10,9 +10,9 @@ public class DistructionLOD : MonoBehaviour
     {
         BA = gameObject.GetComponent<BuildingAtributes>();
     }
-    void OnCollisionEnter(Collision other)
+    void Update()
     {
-       if(other.transform.tag == "Player" && BA.BuildingHealth == 0)
+       if(BA.BuildingHealth == 0)
         {
             GameObject DistrBuilding = (GameObject)Instantiate(prefab, OriginPos.transform.position, OriginPos.transform.rotation);
 
