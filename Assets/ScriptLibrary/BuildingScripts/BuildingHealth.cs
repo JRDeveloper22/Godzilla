@@ -3,7 +3,7 @@ using System.Collections;
 
 public class BuildingHealth : MonoBehaviour {
 
-    public float healthAmount = 100;
+    public float Damage = 100;
     public BuildingAtributes DB;
     void Start()
     {
@@ -21,7 +21,7 @@ public class BuildingHealth : MonoBehaviour {
         {
             Debug.Log("Hit");
             Debug.Log(DB.BuildingHealth);
-            DB.MinusHealth(healthAmount);
+            DB.MinusHealth(Damage);
             //Debug.Log(DB.name);
             if (DB.BuildingHealth <= 0)
             {

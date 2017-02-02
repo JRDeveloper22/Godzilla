@@ -5,8 +5,8 @@ public class DistructBuilding : MonoBehaviour {
     public BuildingAtributes BA;
     public GameObject prefab;
     public GameObject Box;
-    private float ExposionPower = 10.0f;
-    private float ExplosionRadius = 5.0f;
+    // private float ExposionPower = 10.0f;
+    //private float ExplosionRadius = 5.0f;
     Rigidbody Rbox;
     void Start ()
     {
@@ -24,7 +24,7 @@ public class DistructBuilding : MonoBehaviour {
         else
         {
             AddRigidBody();
-            AddExpolison();
+           // AddExpolison();
             this.transform.parent = null;
             StartCoroutine(Despawner());
         }
@@ -47,15 +47,15 @@ public class DistructBuilding : MonoBehaviour {
             Destroy(Box.GetComponent<Rigidbody>());
         }
     }
-    void AddExpolison()
+    /*void AddExpolison()
     {
-        Vector3 explosionPos = transform.position;
+        /Vector3 explosionPos = transform.position;
         Rigidbody rb = gameObject.GetComponent<Rigidbody>();
         if (rb == null)
             Debug.Log("there is no rigidbody on this gameobject");
         //rb.AddExplosionForce(ExposionPower,explosionPos, ExplosionRadius,0.2f);
 
-    }
+    }*/
     IEnumerator Despawner()
     {
         
