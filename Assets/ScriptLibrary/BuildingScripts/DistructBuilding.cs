@@ -19,14 +19,15 @@ public class DistructBuilding : MonoBehaviour {
         if (BA.BuildingHealth > 0)
         {
             
-            RemoveRigidBody();
+            AddRigidBody();
+            StartCoroutine(Despawner(4));
         }
         else
         {
             AddRigidBody();
            // AddExpolison();
             this.transform.parent = null;
-            StartCoroutine(Despawner());
+            StartCoroutine(Despawner(1));
         }
     }
     void AddRigidBody()
@@ -56,10 +57,10 @@ public class DistructBuilding : MonoBehaviour {
         //rb.AddExplosionForce(ExposionPower,explosionPos, ExplosionRadius,0.2f);
 
     }*/
-    IEnumerator Despawner()
+    IEnumerator Despawner(float time)
     {
         
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(time);
         //make the dissolve shader
         Destroy(gameObject);
     }
