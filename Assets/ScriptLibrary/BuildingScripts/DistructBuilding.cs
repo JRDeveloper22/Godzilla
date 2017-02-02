@@ -53,7 +53,7 @@ public class DistructBuilding : MonoBehaviour {
         Rigidbody rb = gameObject.GetComponent<Rigidbody>();
         if (rb == null)
             Debug.Log("there is no rigidbody on this gameobject");
-        rb.AddExplosionForce(ExposionPower,explosionPos, ExplosionRadius,0.2f);
+        //rb.AddExplosionForce(ExposionPower,explosionPos, ExplosionRadius,0.2f);
 
     }
     IEnumerator Despawner()

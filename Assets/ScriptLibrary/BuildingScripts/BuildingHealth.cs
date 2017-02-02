@@ -15,10 +15,12 @@ public class BuildingHealth : MonoBehaviour {
             Debug.LogError(": does not have a DistructBuilding Script");
         }
     }
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
-        if (other.tag == "Player")
+        if (other.transform.tag == "Player")
         {
+            Debug.Log("Hit");
+            Debug.Log(DB.BuildingHealth);
             DB.MinusHealth(healthAmount);
             //Debug.Log(DB.name);
             if (DB.BuildingHealth <= 0)

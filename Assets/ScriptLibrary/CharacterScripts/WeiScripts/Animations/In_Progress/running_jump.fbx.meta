@@ -233,7 +233,7 @@ ModelImporter:
     400222: TongueBack
     400224: TongueMid
     400226: TongueTip
-    7400000: mixamo.com
+    7400000: jump
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -257,7 +257,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: mixamo.com
+      name: jump
       takeName: mixamo.com
       firstFrame: 0
       lastFrame: 27
@@ -537,7 +537,6 @@ ModelImporter:
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
-    serializedVersion: 2
     human: []
     skeleton: []
     armTwist: 0.5
@@ -548,10 +547,7 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     rootMotionBoneName: 
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
-    hasExtraRoot: 1
-    skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   animationType: 2
   humanoidOversampling: 1
