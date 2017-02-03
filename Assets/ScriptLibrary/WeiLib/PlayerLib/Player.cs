@@ -50,27 +50,33 @@ public class Player : LivingEntity {
     void PickTheBuilding()
     {
        Collider[] cs =  Physics.OverlapSphere(transform.position, pickDistance, pickUpLayer);
-       
-       if(cs.Length >0)
+
+        if (cs.Length > 0)
+        {
+            if (cs[0].GetComponent<Rigidbody>()) { Destroy(cs[0].GetComponent<Rigidbody>()); }
             cs[0].transform.parent.parent = pickUpHandler.transform;
+            cs[0].transform.GetComponent<BuildingHealth>().bePicked = true;
+        }
 
     }
     void ThrowBuilding()
     {
-        GameObject pickUp = pickUpHandler.transform.GetChild(0).gameObject;
-        if (pickUp != null)
+        GameObject pickUpHolder = pickUpHandler.transform.GetChild(0).gameObject;
+        if (pickUpHolder != null)
         {
-            pickUp.transform.parent = null;
+            pickUpHolder.transform.parent = null;
             Rigidbody rPickup;
-            if (!pickUp.GetComponent<Rigidbody>())
+            if (!pickUpHolder.GetComponent<Rigidbody>())
             {
-                rPickup = pickUp.AddComponent<Rigidbody>();
+                rPickup = pickUpHolder.transform.GetChild(0).gameObject.AddComponent<Rigidbody>();
                 rPickup.useGravity = true;
             }
             else {
-                rPickup = pickUp.GetComponent<Rigidbody>();
+                rPickup = pickUpHolder.transform.GetChild(0).GetComponent<Rigidbody>();
             }
+            pickUpHolder.transform.GetChild(0).GetComponent<BuildingHealth>().BeThrowed();
             rPickup.AddForce(transform.forward * ThrowForce);
+            
         }
     }
 }

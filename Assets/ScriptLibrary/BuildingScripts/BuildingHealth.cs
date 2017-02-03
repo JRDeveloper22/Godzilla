@@ -6,12 +6,16 @@ public class BuildingHealth : MonoBehaviour
     public bool hit = false;
     public float Damage = 100;
     public BuildingAtributes DB;
-    public GameObject RB;
+
+    [HideInInspector]
+    public bool bePicked = false;
+
+    public float onRgMaxTime = 5.0f;
+    float onRgTime;
     //public bool isPicked = false;
     void Start()
     {
         DB = gameObject.GetComponent<BuildingAtributes>();
-        RB = GameObject.FindGameObjectWithTag("root");
         //Debug.Log(DB.name);
         if (DB == null)
         {
@@ -19,9 +23,25 @@ public class BuildingHealth : MonoBehaviour
             Debug.LogError(": does not have a DistructBuilding Script");
         }
     }
+    private void Update()
+    {
+        if (!bePicked)
+        {
+            if (onRgTime > 0) { onRgTime -= Time.deltaTime; return; }
+            if (GetComponent<Rigidbody>()) {
+                Destroy(GetComponent<Rigidbody>());
+            }
+        }
+    }
+
+    public void BeThrowed()
+    {
+        bePicked = false;
+        onRgTime = onRgMaxTime;
+    }
+
     private void OnCollisionEnter(Collision other)
     {
-
         if (other.transform.tag == "Player")
         {
             DB.MinusHealth(Damage);
@@ -31,7 +51,6 @@ public class BuildingHealth : MonoBehaviour
                 Destroy(this);
             }
         }
-
     }
 }
 
