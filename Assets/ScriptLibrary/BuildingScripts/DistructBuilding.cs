@@ -20,7 +20,7 @@ public class DistructBuilding : MonoBehaviour {
         {
             
             AddRigidBody();
-            StartCoroutine(Despawner(10));
+            //StartCoroutine(Despawner(10));
         }
         else
         {

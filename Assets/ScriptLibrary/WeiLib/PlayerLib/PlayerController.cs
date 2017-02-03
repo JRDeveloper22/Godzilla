@@ -181,7 +181,6 @@ public class PlayerController : MonoBehaviour {
         RGJumpAnimation();
 
         //Whatever other animation
-
         rg.MovePosition(rg.position + velocity3D * Time.fixedDeltaTime);
 		RGJump();
 	}
