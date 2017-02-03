@@ -96,7 +96,7 @@ public class PlayerController : MonoBehaviour {
 	public void GenericMotion()
 	{
 		UpdateInput();
-		FacingInputDir_Stay_AlignCameraDir();
+        FacingInputDir_Stay_AlignCamaraDir_Smooth();
 		UpdateVelocityDir_WithFacingDir();
 		PostProcessed_MoveSpeed_Velocity();
 	}
@@ -124,7 +124,7 @@ public class PlayerController : MonoBehaviour {
 	#region Animation
 	Animator animator;
     [HideInInspector]
-    public bool onAnimationBlock;
+    public bool onJump;
 	public void InitAnimation()
 	{
 		animator = GetComponent<Animator>();
@@ -138,18 +138,17 @@ public class PlayerController : MonoBehaviour {
 	{
         
 		float animationSpeedPercent = ((isRunning)?1:.5f) * moveInput.magnitude;
-        Debug.Log(animationSpeedPercent);
+       // Debug.Log(animationSpeedPercent);
         animator.SetFloat("speedPercent",animationSpeedPercent,speedSmoothTime,Time.deltaTime);
 	}
 
     void RGJumpAnimation()
     {
-        if (!feet.isGround)
+        if (onJump)
         {
-            Debug.Log("George is On Sky. Please do Fly animation");
             animator.SetBool("jump", true);
         }
-        else if (feet.isGround)
+        else if (!onJump)
         {
             animator.SetBool("jump", false);
         }
@@ -157,7 +156,7 @@ public class PlayerController : MonoBehaviour {
     }
     public void PunchAnimation()
     {
-        Debug.Log("Punch George");
+       // Debug.Log("Punch George");
     }
     #endregion
     //=======================================
@@ -168,7 +167,8 @@ public class PlayerController : MonoBehaviour {
 	public GameObject feetObj;
 	Feet feet;
 	float jumpTime = 0.0f;
-	const float jumpCD = 0.2f;
+    public float jumpPreAnimationTime = 0.5f;
+	public float JumpCD =1;
 	public void InitRigidBody()
 	{
 		rg = GetComponent<Rigidbody>();
@@ -194,12 +194,26 @@ public class PlayerController : MonoBehaviour {
 				return;
 			}
 
-			if(feet.isGround){	
-				rg.AddForce(Vector3.up * rgJumpForce);
-				jumpTime = Time.time + jumpCD;
+			if(feet.isGround && !onJump){
+                StartCoroutine(JumpForceDelay());
+                StartCoroutine(ResetJumpStatus());
 			}
 		}
+
 	}
+
+    IEnumerator JumpForceDelay()
+    {
+        onJump = true;
+        yield return new  WaitForSeconds(jumpPreAnimationTime);
+        rg.AddForce(Vector3.up * rgJumpForce);
+        jumpTime = Time.time + JumpCD; 
+    }
+    IEnumerator ResetJumpStatus()
+    {
+        yield return new WaitForSeconds(JumpCD);
+        onJump = false;
+    }
 	#endregion
 	//=======================================
 	//------------CharacterController--------

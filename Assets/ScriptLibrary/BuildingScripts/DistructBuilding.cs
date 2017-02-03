@@ -20,14 +20,14 @@ public class DistructBuilding : MonoBehaviour {
         {
             
             AddRigidBody();
-            StartCoroutine(Despawner(4));
+            StartCoroutine(Despawner(10));
         }
         else
         {
             AddRigidBody();
            // AddExpolison();
             this.transform.parent = null;
-            StartCoroutine(Despawner(1));
+            StartCoroutine(Despawner(1f));
         }
     }
     void AddRigidBody()
@@ -37,8 +37,8 @@ public class DistructBuilding : MonoBehaviour {
             Box.AddComponent<Rigidbody>();
             Rbox = gameObject.GetComponent<Rigidbody>();
             Rbox.useGravity = true;
-            GameObject smoke = (GameObject)Instantiate(prefab, Box.transform.position, Box.transform.rotation);
-            Destroy(smoke, 2.0f);
+           // GameObject smoke = (GameObject)Instantiate(prefab, Box.transform.position, Box.transform.rotation);
+            //Destroy(smoke, 2.0f);
         }
     }
     void RemoveRigidBody()

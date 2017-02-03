@@ -13,9 +13,15 @@ public class Feet : MonoBehaviour {
 
     private void FixedUpdate()
     {
+
         if (Physics.Raycast(transform.position, Vector3.down, rayLength))
+        {
             isGround = true;
+        }
         else
+        {
             isGround = false;
+            //Debug.Log("is Ground False");
+        }
     }
 }
