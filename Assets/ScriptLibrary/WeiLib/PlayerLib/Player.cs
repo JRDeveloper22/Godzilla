@@ -12,6 +12,7 @@ public class Player : LivingEntity {
     public LayerMask pickUpLayer;
     public KeyCode pickKey = KeyCode.E;
     public float ThrowForce = 2;
+    public int playerIndex=0;
     // Use this for initialization
     public override void Start () {
         base.Start();
@@ -56,6 +57,7 @@ public class Player : LivingEntity {
             if (cs[0].GetComponent<Rigidbody>()) { Destroy(cs[0].GetComponent<Rigidbody>()); }
             cs[0].transform.parent.parent = pickUpHandler.transform;
             cs[0].transform.GetComponent<BuildingHealth>().bePicked = true;
+            cs[0].transform.GetComponent<BuildingHealth>().holderPlayerIndex = playerIndex;
         }
 
     }
@@ -75,6 +77,7 @@ public class Player : LivingEntity {
                 rPickup = pickUpHolder.transform.GetChild(0).GetComponent<Rigidbody>();
             }
             pickUpHolder.transform.GetChild(0).GetComponent<BuildingHealth>().BeThrowed();
+            
             rPickup.AddForce(transform.forward * ThrowForce);
             
         }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class LivingEntity : MonoBehaviour,IDamageable {
 
     public float maxHealth = 100;
-    protected float health;
+    public float health;
     protected bool dead;
 
     public virtual void Start()
@@ -16,6 +16,7 @@ public class LivingEntity : MonoBehaviour,IDamageable {
     public virtual void TakeDamage(float damage)
     {
         health -= damage;
+        Debug.Log("I Took Damage");
         if (health <= 0 && !dead)
         {
             //AudioManager.instance.PlayerSound("WhatEverSourceDic",transform.position);
