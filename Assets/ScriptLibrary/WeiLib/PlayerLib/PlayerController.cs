@@ -112,10 +112,10 @@ public class PlayerController : MonoBehaviour {
 	//-----------Camera-----------------------
 	//=======================================
 	#region Camera
-	Transform cameraT;
+	public Transform cameraT;
 	public void InitCamera()
 	{
-		cameraT = Camera.main.transform;
+		//cameraT = Camera.main.transform;
 	}
 	#endregion
 	//=======================================
