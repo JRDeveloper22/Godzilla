@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+[RequireComponent(typeof(Rigidbody))]
 public class DistructBuilding : MonoBehaviour {
     public BuildingAtributes BA;
     public GameObject prefab;
@@ -12,19 +12,17 @@ public class DistructBuilding : MonoBehaviour {
     {
         BA = gameObject.GetComponent<BuildingAtributes>();
         Box = this.gameObject;
+        //AddRigidBody();
     }
 
 	void Update ()
     {
         if (BA.BuildingHealth > 0)
-        {
-            
-            AddRigidBody();
+        {    
             //StartCoroutine(Despawner(10));
         }
         else
         {
-            AddRigidBody();
            // AddExpolison();
             this.transform.parent = null;
             StartCoroutine(Despawner(1f));
@@ -41,13 +39,14 @@ public class DistructBuilding : MonoBehaviour {
             //Destroy(smoke, 2.0f);
         }
     }
-    void RemoveRigidBody()
+    /*void RemoveRigidBody()
     {
         if(Box.GetComponent<Rigidbody>())
         {
             Destroy(Box.GetComponent<Rigidbody>());
         }
-    }
+    }*/
+    
     /*void AddExpolison()
     {
         /Vector3 explosionPos = transform.position;

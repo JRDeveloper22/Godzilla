@@ -29,7 +29,7 @@ public class BuildingHealth : MonoBehaviour
         {
             if (onRgTime > 0) { onRgTime -= Time.deltaTime; return; }
             if (GetComponent<Rigidbody>()) {
-                Destroy(GetComponent<Rigidbody>());
+                //Destroy(GetComponent<Rigidbody>());
             }
         }
     }
