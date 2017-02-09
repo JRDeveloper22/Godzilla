@@ -1,0 +1,170 @@
+newmtl cars:_4eb49e2_dds
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.70 0.70 0.70
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.90 0.90 0.90
+Ns 8.00
+newmtl cars:_5e8e0d6_dds
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.70 0.70 0.70
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.90 0.90 0.90
+Ns 8.00
+newmtl cars:_7daa177_dds
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.70 0.70 0.70
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.90 0.90 0.90
+Ns 8.00
+newmtl cars:_61ad127_dds
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.70 0.70 0.70
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.90 0.90 0.90
+Ns 8.00
+newmtl cars:_471f13e_dds
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.70 0.70 0.70
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.90 0.90 0.90
+Ns 8.00
+newmtl cars:_2682ee3_dds
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.70 0.70 0.70
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.90 0.90 0.90
+Ns 8.00
+newmtl cars:_79454b9_dds
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.70 0.70 0.70
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.90 0.90 0.90
+Ns 8.00
+newmtl cars:_b114070_dds
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.70 0.70 0.70
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.90 0.90 0.90
+Ns 8.00
+newmtl cars:_bf32291_dds
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.70 0.70 0.70
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.90 0.90 0.90
+Ns 8.00
+newmtl cars:_e1d248a_dds
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.70 0.70 0.70
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.90 0.90 0.90
+Ns 8.00
+newmtl cars:_e49a31f_dds
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.70 0.70 0.70
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.90 0.90 0.90
+Ns 8.00
+newmtl cars:_eae5e44_dds
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.70 0.70 0.70
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.90 0.90 0.90
+Ns 8.00
+newmtl cars:ac5105c3_dds
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.70 0.70 0.70
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.90 0.90 0.90
+Ns 8.00
+newmtl cars:ad07adeb_dds
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.70 0.70 0.70
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.90 0.90 0.90
+Ns 8.00
+newmtl cars:b78fc220_dds
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.70 0.70 0.70
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.90 0.90 0.90
+Ns 8.00
+newmtl cars:dbae1c85_dds
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.70 0.70 0.70
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.90 0.90 0.90
+Ns 8.00
+newmtl cars:f0d3a11f_dds
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.70 0.70 0.70
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.90 0.90 0.90
+Ns 8.00
+newmtl initialShadingGroup
+illum 4
+Kd 0.50 0.50 0.50
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+newmtl lambert2SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd new uvs Cardboard.psd
+Ni 1.00
+newmtl lambert3SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd windows 2.psd
+Ni 1.00
+newmtl lambert4SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd Drapes 2.psd
+Ni 1.00
+newmtl lambert5SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd newsky uv.jpg
+Ni 1.00
