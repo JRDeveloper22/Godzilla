@@ -186,7 +186,7 @@ public class PlayerController : MonoBehaviour {
 	}
 	void RGJump()
 	{
-		if(Input.GetButton("Jump"))
+		if(Input.GetKeyDown(jumpKey))
 		{
 			if(jumpTime	> Time.time)
 			{
