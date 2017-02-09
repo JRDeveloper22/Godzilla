@@ -86,7 +86,7 @@ public class TreeBase : MonoBehaviour {
     }
 
     public void Fire() {
-        skillAngent.OnSkillEnter(0);
+        //skillAngent.OnSkillEnter(0);
     }
 
 }
