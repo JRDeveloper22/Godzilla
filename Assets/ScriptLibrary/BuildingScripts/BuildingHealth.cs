@@ -10,6 +10,11 @@ public class BuildingHealth : MonoBehaviour
     [HideInInspector]
     public bool bePicked = false;
 
+    
+    public int holderPlayerIndex;
+    
+    private int otherplayer = 0;
+
     public float onRgMaxTime = 5.0f;
     float onRgTime;
     //public bool isPicked = false;
@@ -42,15 +47,29 @@ public class BuildingHealth : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.transform.tag == "Player")
+        Player p = other.transform.GetComponent<Player>();
+        if (p)
         {
+            if( p.playerIndex == 0)
+            {
+                otherplayer = 1;
+            }
+            else if (p.playerIndex == 1)
+            {
+                otherplayer = 0;
+            }
             DB.MinusHealth(Damage);
             //Debug.Log(DB.name);
             if (DB.BuildingHealth <= 0)
             {
                 Destroy(this);
             }
+            if (p.playerIndex == otherplayer)
+            {
+                p.TakeDamage(10);
+            }
         }
+       
     }
 }
 
