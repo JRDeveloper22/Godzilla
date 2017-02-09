@@ -57,7 +57,12 @@ public class Player : LivingEntity {
             if (cs[0].GetComponent<Rigidbody>()) { Destroy(cs[0].GetComponent<Rigidbody>()); }
             cs[0].transform.parent = pickUpHandler.transform;
             cs[0].transform.GetComponent<BuildingHealth>().bePicked = true;
+
             cs[0].transform.GetComponent<BuildingHealth>().holderPlayerIndex = playerIndex;
+            if(playerIndex == 0)
+                cs[0].transform.GetComponent<BuildingHealth>().otherplayer = 1;
+            else if(playerIndex == 1)
+                cs[0].transform.GetComponent<BuildingHealth>().otherplayer = 0;
         }
 
     }
