@@ -35,13 +35,17 @@ public class AudioManager : MonoBehaviour {
 
 			library = GetComponent<SoundLib>();
 
+            //music Sources used for background Music. use tow music sources for fiding effect
 			musicSources = new AudioSource[2];
+
 			for(int i = 0;i<2;i++)
 			{
 				GameObject newMusicSource = new GameObject("Music source" + (i +1));
 				musicSources[i] =  newMusicSource.AddComponent<AudioSource>();
 				newMusicSource.transform.parent = transform;
 			}
+
+            //this is used for 2D sfx effect
 			GameObject newSfx2Dsource = new GameObject("2D sfx source");
 			sfx2DSource = newSfx2Dsource.AddComponent<AudioSource>();
 			newSfx2Dsource.transform.parent = transform;
@@ -59,6 +63,8 @@ public class AudioManager : MonoBehaviour {
 	{
 		if(playerT != null)
 		{
+            //by default audioListener is a component of mainCamera.
+            //For more realistic 3D sound effect. we attach the audioListener to Player
 			audioListener.position = playerT.position;
 		}
 	}
