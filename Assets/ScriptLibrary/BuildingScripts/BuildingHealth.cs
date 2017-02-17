@@ -59,7 +59,7 @@ public class BuildingHealth : MonoBehaviour
             {
                 Destroy(this);
             }
-            if (p.playerIndex == otherplayer)
+            if (p.playerIndex == otherplayer && gameObject.GetComponent<Rigidbody>() != null)
             {
 
 
