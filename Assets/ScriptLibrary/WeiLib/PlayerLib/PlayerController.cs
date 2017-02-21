@@ -139,7 +139,7 @@ public class PlayerController : MonoBehaviour {
         
 		float animationSpeedPercent = ((isRunning)?1:.5f) * moveInput.magnitude;
        // Debug.Log(animationSpeedPercent);
-        animator.SetFloat("speedPercent",animationSpeedPercent,speedSmoothTime,Time.deltaTime);
+        animator.SetFloat("vertical",animationSpeedPercent,speedSmoothTime,Time.deltaTime);
 	}
 
     void RGJumpAnimation()
