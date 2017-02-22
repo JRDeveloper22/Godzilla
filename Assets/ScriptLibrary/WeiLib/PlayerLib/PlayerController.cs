@@ -33,7 +33,7 @@ public partial class PlayerController : MonoBehaviour
     public Vector2 moveInput;
     float moveAnimationSpeed;
 
-    bool blockMovement;
+    bool blockMovement = false;
 
     //      no longer impliment input information process inside PlayerController.
     //For better organization, We check all Input information in Player Script.
@@ -63,7 +63,7 @@ public partial class PlayerController : MonoBehaviour
     }
     void FacingInputDir_Stay_AlignCamaraDir_Smooth()
     {
-        if (moveInput != Vector2.zero)
+        if (moveInput != Vector2.zero && !blockMovement)
         {
             float targetRotation = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg + cameraT.eulerAngles.y;
             transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref turnSmoothVelocity, GetModifiedSmoothTime(turnSmoothTime));

@@ -25,8 +25,19 @@ public class WeiSoundLib : MonoBehaviour {
 		return null;
 	}
 
+    public AudioClip GetClipFromName(string name,int index)
+    {
+        if (groupDictionary.ContainsKey(name))
+        {
+            AudioClip[] sounds = groupDictionary[name];
+            if(sounds.Length > index)
+                return sounds[index];
+        }
+        return null;
+    }
 
-	[System.Serializable]
+
+    [System.Serializable]
 	public class SoundGroup
 	{
 		public string groupName;

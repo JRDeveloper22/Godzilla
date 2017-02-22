@@ -15,6 +15,7 @@ public partial class PlayerController
     float currentY;
     public bool swipingKeyDown;
     public bool punchKeyDown;
+    public bool drop_kickKeyDown;
     public Transform hipTransform;
 
     public int animationBlockMask;
@@ -55,6 +56,12 @@ public partial class PlayerController
         {
             animator.SetBool("punch", punchKeyDown);
         }
+        if (drop_kickKeyDown & !blockAttackAnimation)
+        {
+            animator.SetBool("drop_kick", drop_kickKeyDown); //Because this animation's exit root x and z postion dose't match the hip's x z position
+                                                             //and also. it exit posture are also not connect with idle animation smoothly. so we better to add a trasitional animation
+                                                             //between drop_kick and idle to smooth the exit of drop_kick.
+        }
       
     }
 
@@ -74,7 +81,7 @@ public partial class PlayerController
         CallBackFunc2,
         PunchGorge,
         JumpAnimationEnter,
-        JumpAnimationExit,
+        SetExitHipPosAsPos,
         SwipingEnter,
         PunchEnter,
     }
@@ -114,10 +121,6 @@ public partial class PlayerController
     {
         Invoke("ApplayJumpForce", jumpForceDelayTime);
     }
-    public void JumpAnimationExit()
-    {
-
-    }
     public void SwipingEnter()
     {
         Invoke("ThrowBuilding", throwBuildingDelayTime);
@@ -126,9 +129,14 @@ public partial class PlayerController
     {
         WeiAudioManager.instance.PlaySound2D("playerSound");
     }
+    public void SetExitHipPosAsPos()
+    {
+        transform.position = new Vector3(hipTransform.position.x, transform.position.y, hipTransform.position.z);
+    }
     //Internal callBack sub Functions
     void ApplayJumpForce()
     {
+        WeiAudioManager.instance.PlaySound2D("MotionEffect", 0);
         rg.AddForce(Vector3.up * rgJumpForce + transform.forward * rgJumpForce / 2);
     }
     void ThrowBuilding()

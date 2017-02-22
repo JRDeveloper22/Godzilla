@@ -122,9 +122,19 @@ public class WeiAudioManager : MonoBehaviour
         PlaySound(library.GetClipFromName(soundName), pos);
     }
 
+    public void PlaySound(string soundName, Vector3 pos, int index)
+    {
+        PlaySound(library.GetClipFromName(soundName, index), pos);
+    }
+
     public void PlaySound2D(string soundName)
     {
         sfx2DSource.PlayOneShot(library.GetClipFromName(soundName), sfxVolumePercent * masterVolumePercent);
+    }
+
+    public void PlaySound2D(string soundName, int index)
+    {
+        sfx2DSource.PlayOneShot(library.GetClipFromName(soundName,index), sfxVolumePercent * masterVolumePercent);
     }
 
     IEnumerator AnimateMusicCrossfade(float duration)

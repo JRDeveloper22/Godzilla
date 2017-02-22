@@ -13,12 +13,12 @@ public class WeiMusicManager : MonoBehaviour
     void Start()
     {
         WeiAudioManager.instance.PlayMusic(menuTheme, 2);
-        Invoke("PlayMusic1", 3.0f);
+        Invoke("PlayMusic1", 5.0f);
     }
 
     void PlayMusic1()
     {
-        WeiAudioManager.instance.PlayMusic(mainTheme, 1);
+        WeiAudioManager.instance.PlayMusic(mainTheme, 5);
     }
     void Update()
     {
