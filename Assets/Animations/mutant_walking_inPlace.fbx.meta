@@ -126,7 +126,105 @@ ModelImporter:
       heightFromFeet: 0
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
+      curves:
+      - name: leftFoot
+        curve:
+          serializedVersion: 2
+          curve:
+          - serializedVersion: 2
+            time: 0.0038029067
+            value: 0.001486361
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+          - serializedVersion: 2
+            time: 0.24647248
+            value: 0.0047447737
+            inSlope: -0.028808659
+            outSlope: -0.028808659
+            tangentMode: 0
+          - serializedVersion: 2
+            time: 0.26729983
+            value: 0.9968941
+            inSlope: -0.06784161
+            outSlope: -0.06784161
+            tangentMode: 0
+          - serializedVersion: 2
+            time: 0.5030959
+            value: 0.99356776
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+          - serializedVersion: 2
+            time: 0.7392602
+            value: 0.987791
+            inSlope: -0.0021298195
+            outSlope: -0.0021298195
+            tangentMode: 0
+          - serializedVersion: 2
+            time: 0.7614457
+            value: 0.006223611
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+          - serializedVersion: 2
+            time: 0.9943874
+            value: -0.0022098124
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+          preInfinity: 3
+          postInfinity: 3
+          rotationOrder: 0
+      - name: rightFoot
+        curve:
+          serializedVersion: 2
+          curve:
+          - serializedVersion: 2
+            time: -0.008229166
+            value: 0.99526167
+            inSlope: 0.023031889
+            outSlope: 0.023031889
+            tangentMode: 0
+          - serializedVersion: 2
+            time: 0.24523962
+            value: 0.99410087
+            inSlope: -0.0013009375
+            outSlope: -0.0013009375
+            tangentMode: 0
+          - serializedVersion: 2
+            time: 0.264657
+            value: 0.007112704
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+          - serializedVersion: 2
+            time: 0.4918621
+            value: 0.005819102
+            inSlope: -0.07597661
+            outSlope: -0.07597661
+            tangentMode: 0
+          - serializedVersion: 2
+            time: 0.7302588
+            value: -0.002169069
+            inSlope: -0.047613867
+            outSlope: -0.047613867
+            tangentMode: 0
+          - serializedVersion: 2
+            time: 0.7516902
+            value: 0.9998558
+            inSlope: -0.0074505806
+            outSlope: -0.0074505806
+            tangentMode: 0
+          - serializedVersion: 2
+            time: 0.9875
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+          preInfinity: 3
+          postInfinity: 3
+          rotationOrder: 0
       events: []
       transformMask:
       - path: 
@@ -233,6 +331,7 @@ ModelImporter:
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
+    serializedVersion: 2
     human: []
     skeleton: []
     armTwist: 0.5
@@ -243,7 +342,10 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   animationType: 2
   humanoidOversampling: 1

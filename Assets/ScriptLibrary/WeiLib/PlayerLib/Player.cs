@@ -10,10 +10,24 @@ public class Player : LivingEntity {
     public GameObject pickUpHandler;
     public float pickDistance;
     public LayerMask pickUpLayer;
-    public KeyCode pickKey = KeyCode.E;
     public float ThrowForce = 2;
     public int playerIndex;
+
     // Use this for initialization
+    public KeyCode pickUpKey = KeyCode.E;
+    public KeyCode runningKey = KeyCode.LeftShift;
+    public KeyCode jumpKey = KeyCode.Space;
+    public KeyCode SwipingKey = KeyCode.F;
+    public string AxisUpDown;
+    public string AxisLeftRight;
+
+    //Input Information
+    bool pickKeyDown = false;
+    bool isRunning = false;
+    bool isJumpKeyDown = false;
+    bool isSwipingKeyDown = false;
+    Vector2 moveInput = Vector2.zero;
+
     public override void Start () {
         base.Start();
         pController = GetComponent<PlayerController>();
@@ -24,29 +38,62 @@ public class Player : LivingEntity {
 	
 	// Update is called once per frame
 	void Update () {
-        pController.isRunning = Input.GetKey(KeyCode.LeftShift);
-        pController.GenericMotion();
-
-        if (Input.GetMouseButton(0))
-        {
-            pController.PunchAnimation();
-        }
-
-        if (Input.GetKeyDown(pickKey))
-        {
-            if (pickUpHandler.transform.childCount > 0)
-                ThrowBuilding();
-            else
-                PickTheBuilding();
-
-        }
-
-	}
+        UpdateInputInfo();
+        UpdatePlayerControllerInfo();
+        UpdateAdditionalAction();
+    }
 
     private void FixedUpdate()
     {
         pController.UpdateRigidBodyController();
     }
+
+    #region SelfDefinedUpdate
+    /// <summary>
+    ///     Update all nesseccery Input information inside Player class. and save those information
+    /// so PlayerController skillAngent or whatever all can chek Input In side Player class. Then we can
+    /// deal with more Input combal. Also can find out the Input conflict very eazily
+    /// </summary>
+    void UpdateInputInfo()
+    {
+        pickKeyDown = Input.GetKeyDown(pickUpKey);
+        isRunning = Input.GetKey(runningKey);
+        isJumpKeyDown = Input.GetKeyDown(jumpKey);
+        isSwipingKeyDown = Input.GetKeyDown(SwipingKey);
+        moveInput.x = Input.GetAxisRaw(AxisLeftRight);
+        moveInput.y = Input.GetAxisRaw(AxisUpDown);
+    }
+
+    void UpdatePlayerControllerInfo()
+    {
+        pController.isRunning = isRunning;
+        pController.moveInput = moveInput;
+        pController.jumpKeyDown = isJumpKeyDown;
+        pController.swipingKeyDown = isSwipingKeyDown;
+        pController.UpdateAnimation();
+        pController.GenericMotion();
+        //pController.UpdateRigidBodyController(); //we should put Physics part in FixedUpdate
+    }
+
+    void UpdateAdditionalAction()
+    {
+        if (pickKeyDown)
+        {
+            PickTheBuilding();
+        }
+        if (pController.throwBuilding)
+        {
+            if (pickUpHandler.transform.childCount > 0)
+            {
+                ThrowBuilding(); 
+            }
+            pController.throwBuilding = false;
+        }
+    }
+
+    #endregion
+
+    #region AdditionActionFunction
 
     void PickTheBuilding()
     {
@@ -66,6 +113,7 @@ public class Player : LivingEntity {
         }
 
     }
+
     void ThrowBuilding()
     {
         GameObject pickUpHolder = pickUpHandler.transform.GetChild(0).gameObject;
@@ -81,9 +129,11 @@ public class Player : LivingEntity {
             else {
                 rPickup = pickUpHolder.transform.GetComponent<Rigidbody>();
             }
+
             pickUpHolder.transform.GetComponent<BuildingHealth>().BeThrowed();
-            rPickup.AddForce(transform.forward * ThrowForce);
-            
+            rPickup.AddForce(transform.forward * ThrowForce);   
         }
     }
+
+    #endregion
 }

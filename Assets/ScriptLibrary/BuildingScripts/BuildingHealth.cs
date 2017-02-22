@@ -52,9 +52,9 @@ public class BuildingHealth : MonoBehaviour
         {
             
             DB.MinusHealth(Damage);
-            Debug.Log(p.name);
-            Debug.Log(p.playerIndex);
-            Debug.Log(otherplayer);
+            //Debug.Log(p.name);
+            //Debug.Log(p.playerIndex);
+            //Debug.Log(otherplayer);
             if (DB.BuildingHealth <= 0)
             {
                 Destroy(this);

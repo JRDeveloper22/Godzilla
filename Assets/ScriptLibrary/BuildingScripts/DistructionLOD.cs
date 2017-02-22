@@ -15,7 +15,6 @@ public class DistructionLOD : MonoBehaviour
        if(BA.BuildingHealth == 0)
         {
             GameObject DistrBuilding = (GameObject)Instantiate(prefab, OriginPos.transform.position, OriginPos.transform.rotation);
-
             Destroy(gameObject);
         }
     }
