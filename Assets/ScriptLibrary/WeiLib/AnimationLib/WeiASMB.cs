@@ -8,6 +8,9 @@ public class WeiASMB : StateMachineBehaviour
     //For internal bool value change
     public BoolValues[] boolValus;
 
+    public FloatValue[] enterFloatValus;
+    public FloatValue[] exitFloatValus;
+
     /// <summary>
     /// Block mask did almost the same thing as CallBack function.
     /// </summary>
@@ -73,6 +76,10 @@ public class WeiASMB : StateMachineBehaviour
         foreach (BoolValues b in boolValus){
             animator.SetBool(b.boolName, b.enterStatu);
         }
+        foreach (FloatValue f in enterFloatValus)
+        {
+            animator.SetFloat(f.floatName, f.value);
+        }
     }
 
     //OnStateExit is called when a transition ends and the state machine finishes evaluating this state
@@ -95,6 +102,10 @@ public class WeiASMB : StateMachineBehaviour
         {
             if (b.resetOnExit) { animator.SetBool(b.boolName, !b.enterStatu); }
         }
+        foreach (FloatValue f in exitFloatValus)
+        {
+            animator.SetFloat(f.floatName, f.value);
+        }
     }
 
     [System.Serializable]
@@ -103,6 +114,12 @@ public class WeiASMB : StateMachineBehaviour
         public string boolName;
         public bool enterStatu;
         public bool resetOnExit;
+    }
+    [System.Serializable]
+    public struct FloatValue
+    {
+        public string floatName;
+        public float value;
     }
 
     [Flags]

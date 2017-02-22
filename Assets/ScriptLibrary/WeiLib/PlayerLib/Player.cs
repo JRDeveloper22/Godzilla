@@ -19,7 +19,6 @@ public class Player : LivingEntity {
     public KeyCode jumpKey = KeyCode.Space;
     public KeyCode SwipingKey = KeyCode.F;
     public KeyCode PunchKey = KeyCode.R;
-    public KeyCode drop_kickKey = KeyCode.G;
     public string AxisUpDown;
     public string AxisLeftRight;
 
@@ -65,7 +64,6 @@ public class Player : LivingEntity {
         isJumpKeyDown = Input.GetKeyDown(jumpKey);
         isSwipingKeyDown = Input.GetKeyDown(SwipingKey);
         isPunchKeyDown = Input.GetKeyDown(PunchKey);
-        isDrop_kickKeyDown = Input.GetKeyDown(drop_kickKey);
         moveInput.x = Input.GetAxisRaw(AxisLeftRight);
         moveInput.y = Input.GetAxisRaw(AxisUpDown);
     }
@@ -77,7 +75,6 @@ public class Player : LivingEntity {
         pController.jumpKeyDown = isJumpKeyDown;
         pController.swipingKeyDown = isSwipingKeyDown;
         pController.punchKeyDown = isPunchKeyDown;
-        pController.drop_kickKeyDown = isDrop_kickKeyDown;
         pController.UpdateAnimation();
         pController.GenericMotion();
         //pController.UpdateRigidBodyController(); //we should put Physics part in FixedUpdate
