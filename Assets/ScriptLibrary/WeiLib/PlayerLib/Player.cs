@@ -18,6 +18,7 @@ public class Player : LivingEntity {
     public KeyCode runningKey = KeyCode.LeftShift;
     public KeyCode jumpKey = KeyCode.Space;
     public KeyCode SwipingKey = KeyCode.F;
+    public KeyCode PunchKey = KeyCode.R;
     public string AxisUpDown;
     public string AxisLeftRight;
 
@@ -26,6 +27,7 @@ public class Player : LivingEntity {
     bool isRunning = false;
     bool isJumpKeyDown = false;
     bool isSwipingKeyDown = false;
+    bool isPunchKeyDown = false;
     Vector2 moveInput = Vector2.zero;
 
     public override void Start () {
@@ -48,7 +50,7 @@ public class Player : LivingEntity {
         pController.UpdateRigidBodyController();
     }
 
-    #region SelfDefinedUpdate
+    #region UpdateGroupes
     /// <summary>
     ///     Update all nesseccery Input information inside Player class. and save those information
     /// so PlayerController skillAngent or whatever all can chek Input In side Player class. Then we can
@@ -60,6 +62,7 @@ public class Player : LivingEntity {
         isRunning = Input.GetKey(runningKey);
         isJumpKeyDown = Input.GetKeyDown(jumpKey);
         isSwipingKeyDown = Input.GetKeyDown(SwipingKey);
+        isPunchKeyDown = Input.GetKeyDown(PunchKey);
         moveInput.x = Input.GetAxisRaw(AxisLeftRight);
         moveInput.y = Input.GetAxisRaw(AxisUpDown);
     }
@@ -70,6 +73,7 @@ public class Player : LivingEntity {
         pController.moveInput = moveInput;
         pController.jumpKeyDown = isJumpKeyDown;
         pController.swipingKeyDown = isSwipingKeyDown;
+        pController.punchKeyDown = isPunchKeyDown;
         pController.UpdateAnimation();
         pController.GenericMotion();
         //pController.UpdateRigidBodyController(); //we should put Physics part in FixedUpdate

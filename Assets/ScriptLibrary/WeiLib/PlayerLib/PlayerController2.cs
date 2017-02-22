@@ -14,6 +14,7 @@ public partial class PlayerController
     float privewY;
     float currentY;
     public bool swipingKeyDown;
+    public bool punchKeyDown;
     public Transform hipTransform;
 
     public int animationBlockMask;
@@ -50,6 +51,10 @@ public partial class PlayerController
         {
             animator.SetBool("swiping", swipingKeyDown);
         }
+        if(punchKeyDown & !blockAttackAnimation)
+        {
+            animator.SetBool("punch", punchKeyDown);
+        }
       
     }
 
@@ -71,6 +76,7 @@ public partial class PlayerController
         JumpAnimationEnter,
         JumpAnimationExit,
         SwipingEnter,
+        PunchEnter,
     }
 
     static bool initialCallbackMethod=false;
@@ -116,6 +122,10 @@ public partial class PlayerController
     {
         Invoke("ThrowBuilding", throwBuildingDelayTime);
     }
+    public void PunchEnter()
+    {
+        WeiAudioManager.instance.PlaySound2D("playerSound");
+    }
     //Internal callBack sub Functions
     void ApplayJumpForce()
     {
@@ -123,6 +133,7 @@ public partial class PlayerController
     }
     void ThrowBuilding()
     {
+        WeiAudioManager.instance.PlaySound2D("Impact");
         throwBuilding = true;
     }
     #endregion
