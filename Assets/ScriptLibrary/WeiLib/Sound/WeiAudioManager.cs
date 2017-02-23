@@ -105,7 +105,6 @@ public class WeiAudioManager : MonoBehaviour
     public void PlayMusic(AudioClip clip, float fadeDuration = 1)
     {
         activeMusicSourceIndex = 1 - activeMusicSourceIndex;
-        Debug.Log(activeMusicSourceIndex);
         musicSources[activeMusicSourceIndex].clip = clip;
         musicSources[activeMusicSourceIndex].Play();
         StartCoroutine(AnimateMusicCrossfade(fadeDuration));

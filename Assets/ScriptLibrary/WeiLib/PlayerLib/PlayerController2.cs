@@ -77,6 +77,7 @@ public partial class PlayerController
         SetExitHipPosAsPos,
         SwipingEnter,
         PunchEnter,
+        Hurricane_kick_Enter,
     }
 
     static bool initialCallbackMethod=false;
@@ -112,7 +113,7 @@ public partial class PlayerController
     }
     public void JumpAnimationEnter()
     {
-        Invoke("ApplayJumpForce", jumpForceDelayTime);
+       Invoke("ApplayJumpForce", jumpForceDelayTime);
     }
     public void SwipingEnter()
     {
@@ -122,15 +123,20 @@ public partial class PlayerController
     {
         WeiAudioManager.instance.PlaySound2D("playerSound");
     }
+    public void Hurricane_kick_Enter()
+    {
+        WeiAudioManager.instance.PlaySound2D("MotionEffect", 1);
+    }
     public void SetExitHipPosAsPos()
     {
         transform.position = new Vector3(hipTransform.position.x, transform.position.y, hipTransform.position.z);
     }
+
     //Internal callBack sub Functions
     void ApplayJumpForce()
     {
         WeiAudioManager.instance.PlaySound2D("MotionEffect", 0);
-        rg.AddForce(Vector3.up * rgJumpForce + transform.forward * rgJumpForce / 2);
+        //rg.AddForce(Vector3.up * rgJumpForce + transform.forward * rgJumpForce / 2);
     }
     void ThrowBuilding()
     {
