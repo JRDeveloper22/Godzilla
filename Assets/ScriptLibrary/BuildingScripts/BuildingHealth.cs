@@ -43,7 +43,7 @@ public class BuildingHealth : MonoBehaviour
                 Destroy(this);
             }
             //If hit other player
-            if (p.playerIndex == otherplayer)
+            if (p.playerIndex == otherplayer && canDoDamage)
             {
                 float doDamage = GetComponent<Rigidbody>() ? GetComponent<Rigidbody>().velocity.magnitude : 0;
                 p.TakeDamage(doDamage);

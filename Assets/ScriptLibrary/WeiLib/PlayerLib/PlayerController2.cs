@@ -15,12 +15,19 @@ public partial class PlayerController
     float currentY;
     public bool swipingKeyDown;
     public bool punchKeyDown;
+    public bool die = false;
     public Transform hipTransform;
 
     public int animationBlockMask;
 
     public float jumpForceDelayTime = 0.4f;
     public float throwBuildingDelayTime = 1.05f;
+
+    Player p;
+    private void Start()
+    {
+        p = GetComponent<Player>();
+    }
 
     partial void UpdateAnimationSmooth()
     {
@@ -54,6 +61,10 @@ public partial class PlayerController
         if(punchKeyDown & !blockAttackAnimation)
         {
             animator.SetBool("punch", punchKeyDown);
+        }
+        if (die)
+        {
+            animator.SetBool("die", die);
         }
       
     }
@@ -126,9 +137,12 @@ public partial class PlayerController
     public void Hurricane_kick_Enter()
     {
         WeiAudioManager.instance.PlaySound2D("MotionEffect", 1);
+        p.checkDamage = true;
+
     }
     public void SetExitHipPosAsPos()
     {
+        p.checkDamage = false;
         transform.position = new Vector3(hipTransform.position.x, transform.position.y, hipTransform.position.z);
     }
 

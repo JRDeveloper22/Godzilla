@@ -6,7 +6,7 @@ public class LivingEntity : MonoBehaviour,IDamageable {
 
     public float maxHealth = 100;
     public float health;
-    protected bool dead;
+    protected bool dead = false;
 
     public virtual void Start()
     {
@@ -26,7 +26,7 @@ public class LivingEntity : MonoBehaviour,IDamageable {
         //AudioManager.instance.PlaySound("Impact",transform.position);
     }
 
-    protected virtual void Die()
+    public virtual void Die()
     {
         dead = true;
     }

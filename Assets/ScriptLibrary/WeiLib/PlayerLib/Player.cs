@@ -99,6 +99,11 @@ public class Player : LivingEntity {
         }
     }
 
+    public override void Die()
+    {
+        base.Die();
+        pController.die = true;
+    }
     #endregion
 
     #region AdditionActionFunction
@@ -110,12 +115,12 @@ public class Player : LivingEntity {
         if (cs.Length > 0)
         {
             if (cs[0].GetComponent<Rigidbody>()) { Destroy(cs[0].GetComponent<Rigidbody>()); }
-            
+
+            if (!cs[0].transform.GetComponent<BuildingHealth>()) { return; }
+
             cs[0].transform.parent = pickUpHandler.transform;
-            //cs[0].transform.localPosition = transform.localPosition;
             cs[0].transform.localPosition = new Vector3(0.005f, 0.23f, -0.84f);
 
-            //cs[0].transform.GetComponent<BuildingHealth>().bePicked = true;
 
             cs[0].transform.GetComponent<BuildingHealth>().holderPlayerIndex = playerIndex;
 
@@ -151,6 +156,17 @@ public class Player : LivingEntity {
     }
 
     #endregion
+    public bool checkDamage = false;
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (checkDamage)
+        {
+            if (collision.transform.GetComponent<LivingEntity>())
+            {
+                collision.transform.GetComponent<LivingEntity>().TakeDamage(10);
+            }
+        }
+    }
 
     private void OnGUI()
     {
