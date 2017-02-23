@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(PlayerController))]
 public class Player : LivingEntity {
@@ -8,6 +9,7 @@ public class Player : LivingEntity {
     PlayerController pController;
 
     public GameObject pickUpHandler;
+    public Slider PLayerSlider;
     public float pickDistance;
     public LayerMask pickUpLayer;
     public float ThrowForce = 2;
@@ -49,6 +51,7 @@ public class Player : LivingEntity {
     private void FixedUpdate()
     {
         pController.UpdateRigidBodyController();
+        PLayerSlider.value = health;
     }
 
     #region UpdateGroupes
@@ -152,6 +155,6 @@ public class Player : LivingEntity {
     private void OnGUI()
     {
         
-        GUILayout.Label(new GUIContent("Player Health : " + health.ToString()));
+       // GUILayout.Label(new GUIContent("Player Health : " + health.ToString()));
     }
 }
