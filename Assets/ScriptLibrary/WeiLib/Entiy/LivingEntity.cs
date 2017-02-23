@@ -16,7 +16,7 @@ public class LivingEntity : MonoBehaviour,IDamageable {
     public virtual void TakeDamage(float damage)
     {
         health -= damage;
-        Debug.Log("I Took Damage");
+        //Debug.Log("I Took Damage");
         if (health <= 0 && !dead)
         {
             //AudioManager.instance.PlayerSound("WhatEverSourceDic",transform.position);

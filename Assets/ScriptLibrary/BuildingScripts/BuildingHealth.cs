@@ -10,10 +10,12 @@ public class BuildingHealth : MonoBehaviour
     [HideInInspector]
     public bool bePicked = false;
 
+    [HideInInspector]
+    public bool canDoDamage = false;
     
     public int holderPlayerIndex;
     
-    public int otherplayer = 0;
+    public int otherplayer = -1;
 
     public float onRgMaxTime = 5.0f;
     float onRgTime;
@@ -41,32 +43,39 @@ public class BuildingHealth : MonoBehaviour
 
     public void BeThrowed()
     {
-        bePicked = false;
+        //bePicked = false;
+        canDoDamage = true;
         onRgTime = onRgMaxTime;
+        Invoke("ResetInfo", 0.5f);
     }
 
     private void OnCollisionEnter(Collision other)
     {
         Player p = other.transform.GetComponent<Player>();
+
         if (p)
         {
-            
+            //building Get Damage
             DB.MinusHealth(Damage);
-            //Debug.Log(p.name);
-            //Debug.Log(p.playerIndex);
-            //Debug.Log(otherplayer);
+
             if (DB.BuildingHealth <= 0)
             {
                 Destroy(this);
             }
-            if (p.playerIndex == otherplayer && gameObject.GetComponent<Rigidbody>() != null)
+            //If hit other player
+            if (p.playerIndex == otherplayer)
             {
-
-
+                float doDamage = GetComponent<Rigidbody>().velocity.magnitude;
                 p.TakeDamage(10);
             }
         }
        
     }
+
+    void ResetInfo()
+    {
+        otherplayer = -1;
+    }
+    
 }
 
