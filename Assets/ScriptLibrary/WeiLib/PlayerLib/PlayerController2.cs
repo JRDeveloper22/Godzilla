@@ -89,6 +89,8 @@ public partial class PlayerController
         SwipingEnter,
         PunchEnter,
         Hurricane_kick_Enter,
+        SetDoDamageToTrue,
+        ResetDoDamageToFalse,
     }
 
     static bool initialCallbackMethod=false;
@@ -132,6 +134,7 @@ public partial class PlayerController
     }
     public void PunchEnter()
     {
+        p.checkDamage = true;
         WeiAudioManager.instance.PlaySound2D("playerSound");
     }
     public void Hurricane_kick_Enter()
@@ -145,7 +148,14 @@ public partial class PlayerController
         p.checkDamage = false;
         transform.position = new Vector3(hipTransform.position.x, transform.position.y, hipTransform.position.z);
     }
-
+    public void SetDoDamageToTrue()
+    {
+        p.checkDamage = true;
+    }
+    public void ResetDoDamageToFalse()
+    {
+        p.checkDamage = false;
+    }
     //Internal callBack sub Functions
     void ApplayJumpForce()
     {

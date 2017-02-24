@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LivingEntity : MonoBehaviour,IDamageable {
 
-    public float maxHealth = 100;
+    public float maxHealth = 1000;
     public float health;
     protected bool dead = false;
 

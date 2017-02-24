@@ -9,8 +9,8 @@ public partial class PlayerController : MonoBehaviour
     //=======================================
     #region Generic
 
-    public float walkSpeed = 2;
-    public float runSpeed = 6;
+    public float walkSpeed = 5;
+    public float runSpeed = 10;
     public bool isRunning = false;
     public float ccJumpHeight = 1.0f;
     public float rgJumpForce = 200.0f;
@@ -156,13 +156,12 @@ public partial class PlayerController : MonoBehaviour
     //=======================================
     #region RigidBodyController
     Rigidbody rg;
-    Feet feet;
+
     public float jumpPreAnimationTime = 0.5f;
     public float JumpCD = 1;
     public void InitRigidBody()
     {
         rg = GetComponent<Rigidbody>();
-        feet = gameObject.GetComponentInChildren<Feet>();
     }
     //Call this function inside FixedUpdate
     public void UpdateRigidBodyController()

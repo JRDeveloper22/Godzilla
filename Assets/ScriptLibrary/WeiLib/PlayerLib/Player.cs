@@ -30,7 +30,6 @@ public class Player : LivingEntity {
     bool isJumpKeyDown = false;
     bool isSwipingKeyDown = false;
     bool isPunchKeyDown = false;
-    bool isDrop_kickKeyDown = false;
     Vector2 moveInput = Vector2.zero;
 
     public override void Start () {
