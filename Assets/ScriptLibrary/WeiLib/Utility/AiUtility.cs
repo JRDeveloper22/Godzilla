@@ -85,6 +85,7 @@ namespace AiUtility{
             return allColliderInView;
         }
 
+        
         public void GetAllColliderInsideFieldOfView<T>(ref List<T> allColliderInView,bool boundsRaycast = false) where T : MonoBehaviour
         {
             //get all Collider in a sphere
@@ -98,8 +99,13 @@ namespace AiUtility{
                 {
                     if (boundsRaycast)
                     {
+                        if (Vector3.Angle(eye.forward, c.transform.position - eye.position) < viewAngle / 2)
+                        {
+                            allColliderInView.Add(t);
+                            return;
+                        }
+
                         Ibounds b = c.GetComponent<Ibounds>();
-                        
                         Vector3[] vertices = b.Vertices;
                         float boundsHeight_1 = vertices[0].y - 0.1f;    //get bounds height
                         Vector3 orginalPos_fixed = new Vector3(eye.position.x, boundsHeight_1, eye.position.z);
@@ -132,11 +138,7 @@ namespace AiUtility{
                                 //Check if corner inside the view angle
                                 if (Vector3.Angle(forwardUnnormaledDir_Fixed, v - orginalPos_fixed) < viewAngle / 2.0f)
                                 {
-                                    //Debug.Log(Vector3.Angle(forwardPos_Fixed, v - orginalPos_fixed));
-                                    Vector3 forwardEdge_fixed1 = Quaternion.AngleAxis(-viewAngle / 2.0f, Vector3.up) * forwardUnnormaledDir_Fixed;
-                                    Vector3 forwardEdge_fixed2 = Quaternion.AngleAxis(viewAngle / 2.0f, Vector3.up) * forwardUnnormaledDir_Fixed;
-
-                                    if (Physics.Raycast(orginalPos_fixed,forwardEdge_fixed1,viewDistance) || Physics.Raycast(orginalPos_fixed, forwardEdge_fixed2, viewDistance))
+                                    if (ScanFromViewEdge(orginalPos_fixed, forwardUnnormaledDir_Fixed,5))
                                     {
                                         if (!allColliderInView.Contains(t))
                                             allColliderInView.Add(t);
@@ -275,10 +277,7 @@ namespace AiUtility{
                     //Check if corner inside the view angle
                     if (Vector3.Angle(forwardPos_Fixed, v - orginalPos_fixed) < viewAngle / 2.0f)
                     {
-                        Vector3 forwardEdge_fixed1 = Quaternion.AngleAxis(-viewAngle / 2.0f, Vector3.up) * forwardPos_Fixed;
-                        Vector3 forwardEdge_fixed2 = Quaternion.AngleAxis(viewAngle / 2.0f, Vector3.up) * forwardPos_Fixed;
-
-                        if (Physics.Raycast(orginalPos_fixed, forwardEdge_fixed1, viewDistance) || Physics.Raycast(orginalPos_fixed, forwardEdge_fixed2, viewDistance))
+                        if (ScanFromViewEdge(orginalPos_fixed, forwardPos_Fixed, 5))
                         {
                             return true;
                         }
@@ -286,6 +285,30 @@ namespace AiUtility{
                 }
             }
             return false;        
+        }
+
+        bool ScanFromViewEdge(Vector3 originalPos,Vector3 forwarUnnormaledDir,int stepTimes)
+        {
+
+            float halfViewAngle = viewAngle/2;
+            Vector3 forwardEdge_fixed1 = Quaternion.AngleAxis(halfViewAngle, Vector3.up) * forwarUnnormaledDir;
+            Vector3 forwardEdge_fixed2 = Quaternion.AngleAxis(-halfViewAngle, Vector3.up) * forwarUnnormaledDir;
+            if (Physics.Raycast(originalPos, forwardEdge_fixed1, viewDistance) || Physics.Raycast(originalPos, forwardEdge_fixed2, viewDistance))
+            {
+                return true;
+            }else{
+                float rotateAnglestep = viewAngle / stepTimes;
+                for (int i = 0; i < stepTimes-1; i++)
+                {   //Scan from -halfViewAngle to halfViewAngle
+                    forwardEdge_fixed2 = Quaternion.AngleAxis(rotateAnglestep, Vector3.up) * forwardEdge_fixed2;
+                    Debug.DrawRay(originalPos, forwardEdge_fixed2,Color.black);
+                    if (Physics.Raycast(originalPos, forwardEdge_fixed2, viewDistance))
+                    {
+                        return true;
+                    }
+                }
+                return false;
+            }
         }
 
         static Vector3 staticOrigin;
