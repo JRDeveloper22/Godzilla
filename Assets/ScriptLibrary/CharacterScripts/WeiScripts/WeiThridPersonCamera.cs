@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class WeiThridPersonCamera : MonoBehaviour {
 
-    
-
     public Vector2 pitchMinMax = new Vector2(0, 85);
-    public float rotationSmoothTime = 0.12f;
+    public float rotationSmoothTime = 0.5f;
     Vector3 rotationSmoothVelocity;
     Vector3 currentRotation;
 

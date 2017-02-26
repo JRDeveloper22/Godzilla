@@ -6,6 +6,15 @@ namespace Test1_2
 {
     public partial class PlayerController1_2 : MonoBehaviour
     {
+        public static PlayerController1_2 instance;
+        private void Awake()
+        {
+            if (instance != null)
+            {
+                Destroy(instance);   
+            }
+            instance = this;
+        }
         //=======================================
         //----------Generic----------------------
         //=======================================
@@ -21,6 +30,7 @@ namespace Test1_2
         Vector3 velocityDir;                    //By default velocity Direction is transform.forward.
         float postProcessedMoveSpeed = 0;       //speed is only a Scalar
         Vector3 velocity3D;                     //Velocity contains speed and Direction.
+        Vector3 velocity3DAdditional = Vector3.zero;
 
         public float turnSmoothTime = 0.2f;     //the bigger the slower
         float turnSmoothVelocity;
@@ -35,7 +45,7 @@ namespace Test1_2
         public Vector2 moveInput;
         float moveAnimationSpeed;
 
-        bool blockMovement = false;
+        bool blockMovementInput = false;
 
         //      no longer impliment input information process inside PlayerController.
         //For better organization, We check all Input information in Player Script.
@@ -65,7 +75,7 @@ namespace Test1_2
         }
         void FacingInputDir_Stay_AlignCamaraDir_Smooth()
         {
-            if (moveInput != Vector2.zero && !blockMovement)
+            if (moveInput != Vector2.zero && !blockMovementInput)
             {
                 float targetRotation = Mathf.Atan2(moveInput.x, moveInput.y) * Mathf.Rad2Deg + cameraT.eulerAngles.y;
                 transform.eulerAngles = Vector3.up * Mathf.SmoothDampAngle(transform.eulerAngles.y, targetRotation, ref turnSmoothVelocity, GetModifiedSmoothTime(turnSmoothTime));
@@ -166,13 +176,14 @@ namespace Test1_2
             rg = GetComponent<Rigidbody>();
 
         }
+
         //Call this function inside FixedUpdate
         public void UpdateRigidBodyController()
         {
-            //rg.AddForce(Vector3.up * 5);//We add little bit force up. So when we are Land ground whith Idle state. Our rg.velocity.y will not be negative number
-
-            if (!blockMovement)
-                rg.MovePosition(rg.position + velocity3D * Time.fixedDeltaTime);
+            //Main input move
+            if (!blockMovementInput) { rg.MovePosition(rg.position + velocity3D * Time.fixedDeltaTime); }
+            //Additional movement.
+            if (velocity3DAdditional != Vector3.zero) { rg.MovePosition(rg.position + velocity3DAdditional * Time.fixedDeltaTime); }
         }
         #endregion
         //=======================================
@@ -321,6 +332,16 @@ namespace Test1_2
                 return float.MaxValue;
             }
             return smoothTime / airControlPercent;
+        }
+
+        void Start()
+        {
+            Start2();
+            Start3();
+        }
+        private void FixedUpdate()
+        {
+            FixedUpdate3();
         }
 
     }

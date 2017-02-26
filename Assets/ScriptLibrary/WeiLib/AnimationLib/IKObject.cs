@@ -2,24 +2,40 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ClimbObjIK : MonoBehaviour {
-    public Collider c;
+public class IKObject : MonoBehaviour, Ibounds {
 
+    Collider c;
     [HideInInspector]
     public Bounds bounds;
     float topY;
 
+    public Material ikObjectMat;
+    Material mat;
+
+    //represent the 4 top vertices
     public Vector3[] vertices = new Vector3[4];
 
-	void Start () {
+    void Start() {
+        mat = Instantiate(ikObjectMat);
+        GetComponent<MeshRenderer>().material = mat;
+        CreateBounds();  
+    }
+
+    public void CreateBounds()
+    {
+        c = GetComponent<BoxCollider>();
         bounds = c.bounds;
-        vertices[0] = bounds.center + new Vector3(bounds.size.x,bounds.size.y,bounds.size.z)/2;
+        vertices[0] = bounds.center + new Vector3(bounds.size.x, bounds.size.y, bounds.size.z) / 2;
         vertices[1] = bounds.center + new Vector3(-bounds.size.x, bounds.size.y, bounds.size.z) / 2;
         vertices[2] = bounds.center + new Vector3(-bounds.size.x, bounds.size.y, -bounds.size.z) / 2;
         vertices[3] = bounds.center + new Vector3(bounds.size.x, bounds.size.y, -bounds.size.z) / 2;
         topY = transform.position.y + bounds.size.y / 2;
     }
-  
+
+    public Bounds Bounds { get { return bounds; } }
+      
+    public Vector3[] Vertices { get { return vertices; } }
+
     public int GetClosestVertex(Vector3 pos)
     {
         int index = 0;
@@ -56,6 +72,11 @@ public class ClimbObjIK : MonoBehaviour {
     {
         Vector3 projectionPoint = bounds.ClosestPoint(pos);
         return new Vector3(projectionPoint.x, topY, projectionPoint.z);
+    }
+
+    public void TintColor(Color c)
+    {
+        mat.color = c;
     }
 
     private void OnDrawGizmos()

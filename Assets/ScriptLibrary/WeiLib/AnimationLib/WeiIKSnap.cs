@@ -5,8 +5,7 @@ using UnityEngine;
 public partial class WeiIKSnap : MonoBehaviour {
 
     public bool useIK;
-
-    
+   
     public bool leftHandIK;
     RaycastHit LHit;
     public Transform leftHandTF;
@@ -34,8 +33,8 @@ public partial class WeiIKSnap : MonoBehaviour {
     float nexTimeToCheckCollider=0.0f;
     float nextTimeToCheckTouchableIKObj = 0.0f;
     public bool tryToFindClimbHolder = false;
-    List<ClimbObjIK> climbableIKObjs = new List<ClimbObjIK>();
-    List<ClimbObjIK> touchableIKObjs = new List<ClimbObjIK>();
+    List<IKObject> climbableIKObjs = new List<IKObject>();
+    List<IKObject> touchableIKObjs = new List<IKObject>();
 	// Use this for initialization
 	void Start () {
         Debug.Log((Quaternion.Euler(1,1,1)* new Vector3(20,5,1)));
@@ -88,7 +87,7 @@ public partial class WeiIKSnap : MonoBehaviour {
         Collider[] allColliders = Physics.OverlapSphere(transform.position, rangeToGetCOI);
         foreach (Collider c in allColliders)
         {
-            ClimbObjIK coi = c.gameObject.GetComponent<ClimbObjIK>();
+            IKObject coi = c.gameObject.GetComponent<IKObject>();
             if(coi)
             {
                 if (!climbableIKObjs.Contains(coi)) {
@@ -128,12 +127,12 @@ public partial class WeiIKSnap : MonoBehaviour {
     void GetTouchableHolder()
     {
         touchableIKObjs.Clear();
-        foreach (ClimbObjIK c in climbableIKObjs){
+        foreach (IKObject c in climbableIKObjs){
             if ((c.transform.position.y + c.bounds.size.y/2) > handReachableHeight+transform.position.y) {continue;}
             touchableIKObjs.Add(c);
         }
 
-        foreach (ClimbObjIK c in touchableIKObjs)
+        foreach (IKObject c in touchableIKObjs)
         {
             Vector3 leftShoderPosition = leftShoderTF.position - transform.right * leftshoderPosionAdjust;
             Vector3 leftShoderClosetEdgePoint = c.GetClosestPointFromTopEdge(leftShoderPosition);

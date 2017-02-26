@@ -27,8 +27,7 @@ namespace Test1_2
         public TrailRenderer trailRenderLeft;
         public TrailRenderer trailRenderRight;
 
-        private void Start()
-        {
+        void Start2() { 
             trailRenderLeft.enabled = false;
             trailRenderRight.enabled = false;
             p = GetComponent<Player1_2>();
@@ -49,7 +48,7 @@ namespace Test1_2
         void SetbasicMoveAnimation()
         {
             float animationSpeedPercent = ((isRunning) ? 1 : .5f) * moveInput.magnitude;
-            if (!blockMovement)
+            if (!blockMovementInput)
                 animator.SetFloat("speedPercent", animationSpeedPercent, speedSmoothTime, Time.deltaTime);
         }
 
@@ -76,18 +75,9 @@ namespace Test1_2
             {
                 animator.SetBool("die", die);
             }
-
             if (Input.GetKeyDown(KeyCode.B))
             {
-                animator.speed = 0.0f;
-            }
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                animator.speed = 1.0f;
-            }
-            if (Input.GetKeyDown(KeyCode.X))
-            {
-                animator.speed = 2.0f;
+                animator.SetBool("Special", true);
             }
 
 
@@ -231,7 +221,6 @@ namespace Test1_2
             AddForce,
         }
 
-        //pass a float as parameter
         public void RotateYAxis(params object[] list)
         {
             if (list[0] is float) { transform.Rotate(Vector3.up * (float)list[0]); }
@@ -255,6 +244,11 @@ namespace Test1_2
             }
         }
 
+        //IK Call back
+        public void PickBuildingIK(params object[] list)
+        {
+
+        }
         #endregion
 
         #region AnimationBlockMask
@@ -264,7 +258,7 @@ namespace Test1_2
         public void ResetAnimationBlockMask(int mask)
         {
             //Debug.Log(mask);
-            blockMovement = (mask & (int)WeiASMB.MaskTypes.blockMovement) == 0 ? false : true;
+            blockMovementInput = (mask & (int)WeiASMB.MaskTypes.blockMovement) == 0 ? false : true;
             
             blockAttackAnimation = (mask & (int)WeiASMB.MaskTypes.blockAttack) == 0 ? false : true;
             
