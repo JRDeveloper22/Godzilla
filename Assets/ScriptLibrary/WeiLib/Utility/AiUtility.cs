@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 using System.Collections.Generic;
 
 namespace AiUtility{
@@ -84,9 +85,8 @@ namespace AiUtility{
             }
             return allColliderInView;
         }
-
-        
-        public void GetAllColliderInsideFieldOfView<T>(ref List<T> allColliderInView,bool boundsRaycast = false) where T : MonoBehaviour
+     
+        public void GetAllColliderInsideFieldOfView<T>(ref List<T> allColliderTInView, Action callBack,bool boundsRaycast = false) where T : MonoBehaviour
         {
             //get all Collider in a sphere
             Collider[] allColliders = Physics.OverlapSphere(eye.position, viewDistance);
@@ -97,39 +97,46 @@ namespace AiUtility{
                 T t = c.GetComponent<T>();
                 if (t)
                 {
+                    //1. if the t aready in side the List, we skipe
+                    if (allColliderTInView.Contains(t))
+                    {
+                        continue;
+                    }
+
+                    //Debug.Log(Vector3.Angle(eye.forward, c.transform.position - eye.position));
                     if (boundsRaycast)
                     {
+                        //2. Simple check if the center of object inside Field of View
                         if (Vector3.Angle(eye.forward, c.transform.position - eye.position) < viewAngle / 2)
                         {
-                            allColliderInView.Add(t);
-                            return;
+                            allColliderTInView.Add(t);
+                            callBack();
+                            continue; //and then return.
                         }
 
                         Ibounds b = c.GetComponent<Ibounds>();
                         Vector3[] vertices = b.Vertices;
-                        float boundsHeight_1 = vertices[0].y - 0.1f;    //get bounds height
+                        float boundsHeight_1 = b.Bounds.center.y;   //get bounds height //instead of use a magic number. we should use bounds.center.y
                         Vector3 orginalPos_fixed = new Vector3(eye.position.x, boundsHeight_1, eye.position.z);
 
                         Vector3 forwardUnnormaledDir = eye.forward * viewDistance + eye.position;
                         Vector3 forwardUnnormaledDir_Fixed = new Vector3(forwardUnnormaledDir.x, boundsHeight_1, forwardUnnormaledDir.z) - orginalPos_fixed;
 
-
-                        //staticOrigin = orginalPos_fixed;
-                        //staticForward = forwardUnnormaledDir_Fixed;
-
                         RaycastHit hitinfo;
-                        // check if we can directly get raycast from forward direction  
+
+                        //3. Raycast forward.
+                        // check if we can directly get raycast from forward direction.
+                        //for some very big object, for player to the center angle check may not work.
                         if (Physics.Raycast(orginalPos_fixed, forwardUnnormaledDir_Fixed,out hitinfo, viewDistance))
                         {
                             if (hitinfo.collider.gameObject == c.gameObject)
                             {
-                                if (!allColliderInView.Contains(t))
-                                {
-                                    allColliderInView.Add(t);
-                                }
+                                allColliderTInView.Add(t);
+                                callBack();
+                                continue;
                             }
                         }
-                        else
+                        else //4.Scan Field Of View
                         {
                             //check if any vertices of the bounds inside view angle. if there is, we raycast the tow view edge
                             //if hit the collider. means we can see the bounds
@@ -140,8 +147,8 @@ namespace AiUtility{
                                 {
                                     if (ScanFromViewEdge(orginalPos_fixed, forwardUnnormaledDir_Fixed,5))
                                     {
-                                        if (!allColliderInView.Contains(t))
-                                            allColliderInView.Add(t);
+                                        allColliderTInView.Add(t);
+                                        callBack();                                       
                                         break;
                                     }
                                 }
@@ -151,7 +158,8 @@ namespace AiUtility{
                     //Dont use bounds raycast
                     else if (Vector3.Angle(eye.forward, c.transform.position - eye.position) < viewAngle / 2)
                     {
-                        allColliderInView.Add(t);
+                        allColliderTInView.Add(t);
+                        callBack();
                     }
                 }
             }  
@@ -256,35 +264,53 @@ namespace AiUtility{
         }
 
         //need to fix
-        public bool IfObjectInFieldOfView(Ibounds ib)
+        public bool IfObjectInFieldOfView(Ibounds ib,bool useBoundsCheck=false)
         {
-            Vector3[] vertices = ib.Vertices;
-            float boundsHeight_1 = vertices[0].y - 0.1f;    //get bounds height
-            Vector3 orginalPos_fixed = new Vector3(eye.position.x, boundsHeight_1, eye.position.z);
-
-            Vector3 forwardPos = eye.forward * viewDistance + eye.position;
-            Vector3 forwardPos_Fixed = new Vector3(forwardPos.x, boundsHeight_1, forwardPos.z) - orginalPos_fixed;
-
-            // check if we can directly get raycast from forward direction  
-            if (Physics.Raycast(orginalPos_fixed, forwardPos_Fixed, viewDistance))
+            if (useBoundsCheck)
             {
-                return true;
-            }else {
-                //check if any vertices of the bounds inside view angle. if there is, we raycast the tow view edge
-                //if hit the collider. means we can see the bounds
-                foreach (Vector3 v in vertices)
+                //1. Simple check if the center of object inside Field of View
+                if (Vector3.Angle(eye.forward, ib.Transform.position - eye.position) < viewAngle / 2)
                 {
-                    //Check if corner inside the view angle
-                    if (Vector3.Angle(forwardPos_Fixed, v - orginalPos_fixed) < viewAngle / 2.0f)
+                    return true; //and then return.
+                }
+
+                //2. Advanced bounds checking
+                Vector3[] vertices = ib.Vertices;
+                float boundsHeight_1 = vertices[0].y - 0.1f;    //get bounds height
+                Vector3 orginalPos_fixed = new Vector3(eye.position.x, boundsHeight_1, eye.position.z);
+
+                Vector3 forwardPos = eye.forward * viewDistance + eye.position;
+                Vector3 forwardPos_Fixed = new Vector3(forwardPos.x, boundsHeight_1, forwardPos.z) - orginalPos_fixed;
+
+                // check if we can directly get raycast from forward direction  
+                if (Physics.Raycast(orginalPos_fixed, forwardPos_Fixed, viewDistance))
+                {
+                    return true;
+                }
+                else
+                {
+                    //check if any vertices of the bounds inside view angle. if there is, we raycast the tow view edge
+                    //if hit the collider. means we can see the bounds
+                    foreach (Vector3 v in vertices)
                     {
-                        if (ScanFromViewEdge(orginalPos_fixed, forwardPos_Fixed, 5))
+                        //Check if corner inside the view angle
+                        if (Vector3.Angle(forwardPos_Fixed, v - orginalPos_fixed) < viewAngle / 2.0f)
                         {
-                            return true;
+                            if (ScanFromViewEdge(orginalPos_fixed, forwardPos_Fixed, 5))
+                            {
+                                return true;
+                            }
                         }
                     }
                 }
+                return false;
             }
-            return false;        
+            //Use simple object cnenter forward angle checking
+            else if(Vector3.Angle(eye.forward, ib.Transform.position - eye.position) < viewAngle / 2)
+            {
+                return true;
+            }
+            return false;
         }
 
         bool ScanFromViewEdge(Vector3 originalPos,Vector3 forwarUnnormaledDir,int stepTimes)
@@ -340,7 +366,7 @@ namespace AiUtility{
             float minDistance = float.MaxValue;
 
             T retObj = null;
-            foreach (T obj in Object.FindObjectsOfType(typeof(T)))
+            foreach (T obj in UnityEngine.Object.FindObjectsOfType(typeof(T)))
             {
                 //Debug.Log(obj);
                 float dist = (obj.gameObject.transform.position - position).magnitude;
@@ -360,7 +386,7 @@ namespace AiUtility{
             float minDistance = float.MaxValue;
 
             T retObj = null;
-            foreach (T obj in Object.FindObjectsOfType(typeof(T)))
+            foreach (T obj in UnityEngine.Object.FindObjectsOfType(typeof(T)))
             {
                 //Debug.Log(obj);
                 float dist = (obj.gameObject.transform.position - position).magnitude;
@@ -382,15 +408,15 @@ namespace AiUtility{
             }
         }
 
-        public static Object[] Finds<T>() where T : MonoBehaviour
+        public static UnityEngine.Object[] Finds<T>() where T : MonoBehaviour
         {
-           return Object.FindObjectsOfType(typeof(T));
+           return UnityEngine.Object.FindObjectsOfType(typeof(T));
         }
 
         //Find all T Objects inside the raduis range; center is a given position. and out put to the out_objs. Return all object inside the Scene
-        public static Object[] Finds<T>(Vector3 position, float range, ref List<T> out_objs) where T : MonoBehaviour
+        public static UnityEngine.Object[] Finds<T>(Vector3 position, float range, ref List<T> out_objs) where T : MonoBehaviour
         {
-            Object[] objs = Object.FindObjectsOfType(typeof(T));
+            UnityEngine.Object[] objs = UnityEngine.Object.FindObjectsOfType(typeof(T));
             foreach (T obj in objs)
             {
                 if ((obj.transform.position - position).magnitude <= range)

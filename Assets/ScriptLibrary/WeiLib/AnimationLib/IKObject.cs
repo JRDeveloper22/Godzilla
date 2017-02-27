@@ -7,18 +7,66 @@ public class IKObject : MonoBehaviour, Ibounds {
     Collider c;
     [HideInInspector]
     public Bounds bounds;
+    [HideInInspector]
+    public float dstToPlayer;
+    [HideInInspector]
+    public Vector3 closetPointToPlayer;
     float topY;
 
     public Material ikObjectMat;
     Material mat;
 
+    [HideInInspector]
+    static Color color;
+
     //represent the 4 top vertices
     public Vector3[] vertices = new Vector3[4];
+
+    Transform targetAnimatorTransform;
+    Vector3 dst;
+    public delegate void FollowAnimatorTransform();
+    public FollowAnimatorTransform followAnimatorTransform;
 
     void Start() {
         mat = Instantiate(ikObjectMat);
         GetComponent<MeshRenderer>().material = mat;
         CreateBounds();  
+    }
+
+    private void Update()
+    {
+        bounds.center = transform.position;
+        if (followAnimatorTransform!= null)
+        {
+            followAnimatorTransform();
+        }
+    }
+
+    public void FollowTarget()
+    {
+        Vector3 dst2D = new Vector3(dst.x, transform.position.y, dst.z);
+        float angle = Vector3.Angle(targetAnimatorTransform.forward, dst2D);
+        if (angle > 80)
+        {
+            Vector3 cross = Vector3.Cross(targetAnimatorTransform.forward, dst2D);
+            Vector3 newDst;
+            if (cross.y < 0)
+            {
+                newDst = Quaternion.AngleAxis(-60, targetAnimatorTransform.up) * targetAnimatorTransform.forward;
+            }
+            else {
+                newDst = Quaternion.AngleAxis(60, targetAnimatorTransform.up) * targetAnimatorTransform.forward;
+            }
+             dst = new Vector3(newDst.x,dst.y,newDst.z);
+            
+        }
+        transform.position = targetAnimatorTransform.position + dst;
+    }
+
+    public void SetAnimatorTargetTF(Transform t)
+    {
+        targetAnimatorTransform = t;
+        dst = transform.position - targetAnimatorTransform.position;
     }
 
     public void CreateBounds()
@@ -35,6 +83,8 @@ public class IKObject : MonoBehaviour, Ibounds {
     public Bounds Bounds { get { return bounds; } }
       
     public Vector3[] Vertices { get { return vertices; } }
+
+    public Transform Transform { get { return transform; } }
 
     public int GetClosestVertex(Vector3 pos)
     {
@@ -74,9 +124,19 @@ public class IKObject : MonoBehaviour, Ibounds {
         return new Vector3(projectionPoint.x, topY, projectionPoint.z);
     }
 
+    public void TintColor()
+    {
+        mat.color = color;
+    }
+
     public void TintColor(Color c)
     {
         mat.color = c;
+    }
+
+    public static void SetTintColor(Color c)
+    {
+        color = c;
     }
 
     private void OnDrawGizmos()

@@ -38,6 +38,7 @@ namespace Test1_2
             //Set Animation information
             SetbasicMoveAnimation();
             SetSpecialAnimation();
+            UpdateAnimationSmooth_IK();
         }
 
         #region SetAnimationInfo
@@ -75,10 +76,6 @@ namespace Test1_2
             {
                 animator.SetBool("die", die);
             }
-            if (Input.GetKeyDown(KeyCode.B))
-            {
-                animator.SetBool("Special", true);
-            }
 
 
         }
@@ -110,7 +107,8 @@ namespace Test1_2
             TrailRenderOnLeft,
             TrainRenderOnRight,
             TrailRenderOffLeft,
-            TrailRenderOffRight
+            TrailRenderOffRight,
+            GetPickUpBuilding
         }
 
         static bool initialCallbackMethod = false;

@@ -30,7 +30,7 @@ namespace Test1_2
         Vector3 velocityDir;                    //By default velocity Direction is transform.forward.
         float postProcessedMoveSpeed = 0;       //speed is only a Scalar
         Vector3 velocity3D;                     //Velocity contains speed and Direction.
-        Vector3 velocity3DAdditional = Vector3.zero;
+        Vector3 velocity3DAdditional = Vector3.zero; //this velocity is used for pasitive motion. like process getting hit movement...whatever
 
         public float turnSmoothTime = 0.2f;     //the bigger the slower
         float turnSmoothVelocity;
@@ -174,7 +174,6 @@ namespace Test1_2
         public void InitRigidBody()
         {
             rg = GetComponent<Rigidbody>();
-
         }
 
         //Call this function inside FixedUpdate
@@ -344,5 +343,9 @@ namespace Test1_2
             FixedUpdate3();
         }
 
+        private void Update()
+        {
+            Update3();
+        }
     }
 }
