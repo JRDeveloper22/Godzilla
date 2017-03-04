@@ -15,16 +15,15 @@ public class DistructBuilding : MonoBehaviour {
 
 	void Update ()
     {
-        
-        if (BA.BuildingHealth > 0)
+        if (BA.Parent.Taken == true)
         {
-            AddRigidBodyWC();
+            AddRigidBodyNC();
         }
-        else
+
+        if (BA.BuildingHealth <= 0)
         {
             AddRigidBodyNC();
             this.transform.parent = null;
-            StartCoroutine(Despawner(2f));
         }
     }
     void AddRigidBodyNC()
@@ -34,6 +33,7 @@ public class DistructBuilding : MonoBehaviour {
             Box.AddComponent<Rigidbody>();
             Rbox = gameObject.GetComponent<Rigidbody>();
             Rbox.useGravity = true;
+            StartCoroutine(Despawner(5f));
         }
     }
     void AddRigidBodyWC()

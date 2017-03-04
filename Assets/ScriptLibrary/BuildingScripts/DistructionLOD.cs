@@ -9,20 +9,20 @@ public class DistructionLOD : MonoBehaviour
     {
         BA = gameObject.GetComponent<BuildingAtributes>();
     }
-    /*void Update()
+    void Update()
     {
        if(BA.BuildingHealth == 0)
         {
             GameObject DistrBuilding = (GameObject)Instantiate(prefab, BA.transform.position, BA.transform.rotation);
             Destroy(gameObject);
         }
-    }*/
-    private void OnCollisionEnter(Collision other)
+    }
+    /*private void OnCollisionEnter(Collision other)
     {
         if(other.transform.tag == "Player")
         {
             GameObject DistrBuilding = (GameObject)Instantiate(prefab, BA.transform.position, BA.transform.rotation);
             Destroy(gameObject);
         }
-    }
+    }*/
 }
