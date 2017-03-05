@@ -172,7 +172,6 @@ namespace Test1_2{
 
         private void OnGUI()
         {
-
             // GUILayout.Label(new GUIContent("Player Health : " + health.ToString()));
         }
     }

@@ -58,7 +58,6 @@ public class IKObject : MonoBehaviour, Ibounds {
                 newDst = Quaternion.AngleAxis(60, targetAnimatorTransform.up) * targetAnimatorTransform.forward;
             }
              dst = new Vector3(newDst.x,dst.y,newDst.z);
-            
         }
         transform.position = targetAnimatorTransform.position + dst;
     }
