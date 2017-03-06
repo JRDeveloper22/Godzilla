@@ -256,11 +256,11 @@ namespace Test1_2
         public void ResetAnimationBlockMask(int mask)
         {
             //Debug.Log(mask);
-            blockMovementInput = (mask & (int)WeiASMB.MaskTypes.blockMovement) == 0 ? false : true;
+            blockMovementInput = (mask & (int)WeiASMB1_2.MaskTypes.blockMovement) == 0 ? false : true;
             
-            blockAttackAnimation = (mask & (int)WeiASMB.MaskTypes.blockAttack) == 0 ? false : true;
+            blockAttackAnimation = (mask & (int)WeiASMB1_2.MaskTypes.blockAttack) == 0 ? false : true;
             
-            blockJumpAnimation = (mask & (int)WeiASMB.MaskTypes.blockJump) == 0 ? false : true;
+            blockJumpAnimation = (mask & (int)WeiASMB1_2.MaskTypes.blockJump) == 0 ? false : true;
         }
         #endregion
 

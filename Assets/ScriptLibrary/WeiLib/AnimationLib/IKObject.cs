@@ -6,12 +6,13 @@ public class IKObject : MonoBehaviour, Ibounds {
 
     Collider c;
     [HideInInspector]
-    public Bounds bounds;
-    [HideInInspector]
     public float dstToPlayer;
     [HideInInspector]
     public Vector3 closetPointToPlayer;
-    float topY;
+    [HideInInspector]
+    public float topY;
+
+    public float botY;
 
     public Material ikObjectMat;
     Material mat;
@@ -24,64 +25,80 @@ public class IKObject : MonoBehaviour, Ibounds {
 
     Transform targetAnimatorTransform;
     Vector3 dst;
-    public delegate void FollowAnimatorTransform();
-    public FollowAnimatorTransform followAnimatorTransform;
+    public delegate void UpdateDel();
+    public UpdateDel updateDel;
+
+    Vector3 privewPos = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
 
     void Start() {
         mat = Instantiate(ikObjectMat);
         GetComponent<MeshRenderer>().material = mat;
-        CreateBounds();  
+        c = GetComponent<BoxCollider>();
+        CreateVertices();  
     }
 
     private void Update()
-    {
-        bounds.center = transform.position;
-        if (followAnimatorTransform!= null)
+    {   
+
+        if (updateDel!= null)
         {
-            followAnimatorTransform();
+           updateDel();
         }
     }
 
+    //We will add this function to updateDel, after our player pick up this Object
     public void FollowTarget()
     {
-        Vector3 dst2D = new Vector3(dst.x, transform.position.y, dst.z);
-        float angle = Vector3.Angle(targetAnimatorTransform.forward, dst2D);
-        if (angle > 80)
-        {
-            Vector3 cross = Vector3.Cross(targetAnimatorTransform.forward, dst2D);
-            Vector3 newDst;
-            if (cross.y < 0)
-            {
-                newDst = Quaternion.AngleAxis(-60, targetAnimatorTransform.up) * targetAnimatorTransform.forward;
-            }
-            else {
-                newDst = Quaternion.AngleAxis(60, targetAnimatorTransform.up) * targetAnimatorTransform.forward;
-            }
-             dst = new Vector3(newDst.x,dst.y,newDst.z);
-        }
+        //RestrictIKAngle();
+        if (Input.GetKey(KeyCode.V)) { RotateDstAroundX(); }
+        transform.rotation = targetAnimatorTransform.rotation;
         transform.position = targetAnimatorTransform.position + dst;
     }
 
+    void RestrictIKAngle()
+    {
+        Vector3 dst2D = new Vector3(dst.x, transform.position.y, dst.z);        //The parallel Vector to player position.
+        float angle = Vector3.Angle(targetAnimatorTransform.forward, dst2D);    
+        if (angle > 60)
+        {
+            Vector3 cross = Vector3.Cross(targetAnimatorTransform.forward, dst2D); //check the sign of the angle(negative or positive)
+            Vector3 newDst;
+            if (cross.y < 0)
+            {
+                newDst = Quaternion.AngleAxis(-60, targetAnimatorTransform.up) * targetAnimatorTransform.forward; //get the new position, which rotate the player's forward direction
+            }
+            else
+            {
+                newDst = Quaternion.AngleAxis(60, targetAnimatorTransform.up) * targetAnimatorTransform.forward;
+            }
+            dst = new Vector3(newDst.x, dst.y, newDst.z);
+        }
+    }
+
+    //This function will be called when the player pick the IKObject
     public void SetAnimatorTargetTF(Transform t)
     {
         targetAnimatorTransform = t;
-        dst = transform.position - targetAnimatorTransform.position;
+        Vector3 newPos = targetAnimatorTransform.position + targetAnimatorTransform.up * (10+c.bounds.size.y/2f);
+        transform.position = newPos;
+        transform.rotation = targetAnimatorTransform.rotation;
+        dst = newPos - targetAnimatorTransform.position;
     }
 
-    public void CreateBounds()
+    public void CreateVertices()
     {
-        c = GetComponent<BoxCollider>();
-        bounds = c.bounds;
-        vertices[0] = bounds.center + new Vector3(bounds.size.x, bounds.size.y, bounds.size.z) / 2;
-        vertices[1] = bounds.center + new Vector3(-bounds.size.x, bounds.size.y, bounds.size.z) / 2;
-        vertices[2] = bounds.center + new Vector3(-bounds.size.x, bounds.size.y, -bounds.size.z) / 2;
-        vertices[3] = bounds.center + new Vector3(bounds.size.x, bounds.size.y, -bounds.size.z) / 2;
-        topY = transform.position.y + bounds.size.y / 2;
+        if (!IfObjectMoved()) return; //if we didn't change the position wo donot need to update our vertices Pos;
+        vertices[0] = c.bounds.center + new Vector3(c.bounds.size.x, c.bounds.size.y, c.bounds.size.z) / 2;
+        vertices[1] = c.bounds.center + new Vector3(-c.bounds.size.x, c.bounds.size.y, c.bounds.size.z) / 2;
+        vertices[2] = c.bounds.center + new Vector3(-c.bounds.size.x, c.bounds.size.y, -c.bounds.size.z) / 2;
+        vertices[3] = c.bounds.center + new Vector3(c.bounds.size.x, c.bounds.size.y, -c.bounds.size.z) / 2;
+        topY = transform.position.y + c.bounds.size.y / 2;
+        botY = transform.position.y - c.bounds.size.y / 2;
     }
 
-    public Bounds Bounds { get { return bounds; } }
+    public Bounds Bounds { get {return c.bounds; } }
       
-    public Vector3[] Vertices { get { return vertices; } }
+    public Vector3[] Vertices { get { CreateVertices(); return vertices; } }
 
     public Transform Transform { get { return transform; } }
 
@@ -101,6 +118,13 @@ public class IKObject : MonoBehaviour, Ibounds {
         return index;
     }
 
+    bool IfObjectMoved()
+    {
+        Vector3 newPos = transform.position;
+        if (newPos == privewPos) return false;
+        else { privewPos = newPos;return true; }
+    }
+
     //Used for Debug.
     public void DrawReachableToEdge(Vector3 pos)
     {
@@ -113,13 +137,13 @@ public class IKObject : MonoBehaviour, Ibounds {
 
         Debug.DrawLine(pos, vertices[i], Color.green);
         
-        Vector3 projectionPoint = bounds.ClosestPoint(pos);
+        Vector3 projectionPoint = c.bounds.ClosestPoint(pos);
         Debug.DrawLine(pos,new Vector3(projectionPoint.x, topY,projectionPoint.z), Color.red);
     }
 
     public Vector3 GetClosestPointFromTopEdge(Vector3 pos)
     {
-        Vector3 projectionPoint = bounds.ClosestPoint(pos);
+        Vector3 projectionPoint = c.bounds.ClosestPoint(pos);
         return new Vector3(projectionPoint.x, topY, projectionPoint.z);
     }
 
@@ -137,6 +161,16 @@ public class IKObject : MonoBehaviour, Ibounds {
     {
         color = c;
     }
+
+    #region IKAnimationFunc
+
+    [ContextMenu("Rotate Dst")]
+    void RotateDstAroundX()
+    {
+        dst = WeiVector3.RotateVectorAround(dst, targetAnimatorTransform.right, 2);
+    }
+
+    #endregion
 
     private void OnDrawGizmos()
     {

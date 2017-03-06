@@ -11,7 +11,7 @@ public class WeiThridPersonCamera : MonoBehaviour {
 
     public Transform target;
     public Vector2 rangeToTarget = new Vector2(2, 20);
-    float dstToTarget = 10;
+    float dstToTarget = 15;
     public float cameraMoveSensitivity = 10;
     float yaw;  //Rotation around Y Axis
     float pitch = 75;//Rotation around X Axis

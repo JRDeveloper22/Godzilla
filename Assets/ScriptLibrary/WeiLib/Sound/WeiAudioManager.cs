@@ -55,8 +55,8 @@ public class WeiAudioManager : MonoBehaviour
             newSfx2Dsource.transform.parent = transform;
 
             audioListener = FindObjectOfType<AudioListener>().transform;
-            playerT = FindObjectOfType<Player>().transform;
-
+            playerT = FindObjectOfType<Test1_2.Player1_2>().transform;
+            
             masterVolumePercent = PlayerPrefs.GetFloat("master Volume", masterVolumePercent);
             musicVolumePercent = PlayerPrefs.GetFloat("music Volume", masterVolumePercent);
             sfxVolumePercent = PlayerPrefs.GetFloat("Sfx Volume", sfxVolumePercent);
