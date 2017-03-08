@@ -168,9 +168,6 @@ namespace Test1_2
         //=======================================
         #region RigidBodyController
         Rigidbody rg;
-
-        public float jumpPreAnimationTime = 0.5f;
-        public float JumpCD = 1;
         public void InitRigidBody()
         {
             rg = GetComponent<Rigidbody>();
@@ -333,6 +330,9 @@ namespace Test1_2
             return smoothTime / airControlPercent;
         }
 
+        public delegate void UpdateDel();
+        public UpdateDel updateDel;
+
         void Start()
         {
             Start2();
@@ -346,7 +346,10 @@ namespace Test1_2
 
         private void Update()
         {
-            Update3();
+            if (updateDel!=null)
+            {
+                updateDel();
+            }
         }
     }
 }

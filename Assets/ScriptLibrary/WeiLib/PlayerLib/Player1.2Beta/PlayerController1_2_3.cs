@@ -7,9 +7,7 @@ namespace Test1_2
 {
     //This partial class is mainly to deal with IK system;
     public partial class PlayerController1_2
-    {
-        delegate void UpdateDel();
-        UpdateDel updateDel;
+    {        
         IKObject currentIKTarget;
         //Hand IK parts
         //==========================================
@@ -30,8 +28,7 @@ namespace Test1_2
         //=============================================
         //Hip IK parts
         //=============================================
-        float hipMaxHeight = 0.0f;
-        float distToIKObject = 0.0f;
+
         //=============================================
         //Shouder IK parts
         //Transform rightShouderTransform;
@@ -40,20 +37,12 @@ namespace Test1_2
 
         void Start3()
         {
-            hipMaxHeight = hipTransform.transform.localPosition.y * transform.localScale.y;
             //rightShouderTransform = animator.GetBoneTransform(HumanBodyBones.RightShoulder);
             //leftShoderTRansform = animator.GetBoneTransform(HumanBodyBones.LeftShoulder);
             naveMeshAngent = GetComponent<NavMeshAgent>();
             naveMeshAngent.speed = walkSpeed;
         }
 
-        void Update3()
-        {
-            if (updateDel != null)
-            {
-                updateDel();
-            }
-        }
 
         void FixedUpdate3()
         {
@@ -103,7 +92,16 @@ namespace Test1_2
 
         void Throw()
         {
-            currentIKTarget.gameObject.AddComponent<Rigidbody>().AddForce(transform.forward * 1000);
+            Rigidbody rg = currentIKTarget.gameObject.GetComponent<Rigidbody>();
+            if (rg == null)
+                currentIKTarget.gameObject.AddComponent<Rigidbody>().AddForce(hipTransform.forward * 3000);
+            else
+            {
+                rg.velocity = Vector3.zero;
+                rg.AddForce(hipTransform.forward * 3000);
+            }
+
+            
             currentIKTarget.updateDel -= currentIKTarget.FollowTarget;
             currentIKTarget = null;
             leftHandIK = false;

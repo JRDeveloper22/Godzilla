@@ -6,7 +6,8 @@ public class DistructBuilding : MonoBehaviour {
     public GameObject prefab;
     public GameObject Box;
     Rigidbody Rbox;
-    float distToGround = 1;
+    [HideInInspector]
+    public float distToGround = 1;
     void Start ()
     {
         BA = gameObject.GetComponent<BuildingAtributes>();

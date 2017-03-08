@@ -79,9 +79,9 @@ public class IKObject : MonoBehaviour, Ibounds {
     public void SetAnimatorTargetTF(Transform t)
     {
         targetAnimatorTransform = t;
+        transform.rotation = targetAnimatorTransform.rotation;
         Vector3 newPos = targetAnimatorTransform.position + targetAnimatorTransform.up * (10+c.bounds.size.y/2f);
         transform.position = newPos;
-        transform.rotation = targetAnimatorTransform.rotation;
         dst = newPos - targetAnimatorTransform.position;
     }
 
