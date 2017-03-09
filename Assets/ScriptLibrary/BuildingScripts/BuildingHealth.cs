@@ -6,9 +6,7 @@ public class BuildingHealth : MonoBehaviour
     public bool hit = false;
     public float Damage = 100;
     public BuildingAtributes DB;
-    
     public int holderPlayerIndex;
-
     public bool canDoDamage = false;
     public int otherplayer = -1;
 
@@ -31,7 +29,8 @@ public class BuildingHealth : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        Player p = other.transform.GetComponent<Player>();
+		Test1_2.Player1_2  p = other.transform.GetComponent<Test1_2.Player1_2>();
+		//Player p = other.transform.GetComponent<Player>();
 
         if (p)
         {
