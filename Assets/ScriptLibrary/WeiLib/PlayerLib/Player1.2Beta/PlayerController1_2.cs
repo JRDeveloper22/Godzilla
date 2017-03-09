@@ -6,15 +6,7 @@ namespace Test1_2
 {
     public partial class PlayerController1_2 : MonoBehaviour
     {
-        public static PlayerController1_2 instance;
-        private void Awake()
-        {
-            if (instance != null)
-            {
-                Destroy(instance);   
-            }
-            instance = this;
-        }
+       
         //=======================================
         //----------Generic----------------------
         //=======================================
