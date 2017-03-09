@@ -25,7 +25,7 @@ namespace Test1_2{
         public string AxisLeftRight = "Horizontal";
 
         //Input Information
-        bool pickKeyDown = false;
+        bool isPickKeyDown = false;
         bool isRunning = false;
         bool isJumpKeyDown = false;
         bool isSwipingKeyDown = false;
@@ -63,7 +63,7 @@ namespace Test1_2{
         /// </summary>
         void UpdateInputInfo()
         {
-            pickKeyDown = Input.GetKeyDown(pickUpKey);
+            isPickKeyDown = Input.GetKeyDown(pickUpKey);
             isRunning = Input.GetKey(runningKey);
             isJumpKeyDown = Input.GetKeyDown(jumpKey);
             isSwipingKeyDown = Input.GetKeyDown(SwipingKey);
@@ -79,6 +79,8 @@ namespace Test1_2{
             pController.jumpKeyDown = isJumpKeyDown;
             pController.swipingKeyDown = isSwipingKeyDown;
             pController.punchKeyDown = isPunchKeyDown;
+            pController.isPickKeyDown = isPickKeyDown;
+
             pController.UpdateAnimation();
             pController.GenericMotion();
             //pController.UpdateRigidBodyController(); //we should put Physics part in FixedUpdate
@@ -86,7 +88,7 @@ namespace Test1_2{
 
         void UpdateAdditionalAction()
         {
-            if (pickKeyDown)
+            if (isPickKeyDown)
             {
                 PickTheBuilding();
             }

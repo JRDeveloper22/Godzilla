@@ -77,7 +77,6 @@ namespace Test1_2
                 animator.SetBool("die", die);
             }
 
-
         }
 
         #endregion

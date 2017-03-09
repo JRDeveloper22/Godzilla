@@ -266,6 +266,7 @@ namespace AiUtility{
         //need to fix
         public bool IfObjectInFieldOfView(Ibounds ib,bool useBoundsCheck=false)
         {
+            if((ib.Transform.position - eye.position).sqrMagnitude > viewDistance * viewDistance) { return false; }
             if (useBoundsCheck)
             {
                 //1. Simple check if the center of object inside Field of View

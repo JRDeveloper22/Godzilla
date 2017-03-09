@@ -25,6 +25,8 @@ namespace Test1_2
 
         public bool leftHandIK = false;
         public bool rightHandIK = false;
+
+        public bool isPickKeyDown = false;
         //=============================================
         //Hip IK parts
         //=============================================
@@ -77,16 +79,19 @@ namespace Test1_2
 
         void UpdateAnimationSmooth_IK() //call this method from PlayerController1_2_2.
         {
-            if (Input.GetKeyDown(KeyCode.B))
+            if(isPickKeyDown && !blockMovementInput)
             {
-                GetClosetIKObject();
-                StartPickIKTarget();    
-            }
-            if (Input.GetKeyDown(KeyCode.N))
-            {
-                animator.SetBool("Special", true);
-                animator.SetInteger("specialType", 2);
-                Invoke("Throw", 0.5f);
+                if (currentIKTarget == null)
+                {
+                    GetClosetIKObject();
+                    StartPickIKTarget();
+                }
+                else
+                {
+                    animator.SetBool("Special", true);
+                    animator.SetInteger("specialType", 2);
+                    Invoke("Throw", 0.5f);
+                }
             }
         }
 
