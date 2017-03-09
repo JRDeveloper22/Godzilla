@@ -95,6 +95,7 @@ namespace Test1_2{
                 if (pickUpHandler.transform.childCount > 0)
                 {
                     ThrowBuilding();
+                    Debug.Log("CheckLogic");
                 }
                 pController.throwBuilding = false;
             }
