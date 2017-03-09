@@ -48,7 +48,6 @@ public class BuildingHealth : MonoBehaviour
                 p.TakeDamage(doDamage);
             }
         }
-       
     }
 
     void ResetInfo()

@@ -24,7 +24,7 @@ public class PhysicsDamageSender : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
-		Debug.Log ("I Hit Something");
+       
 		PhysicsDamangeResiver resiver = collision.gameObject.GetComponent<PhysicsDamangeResiver>();
         if (resiver != null)
         {

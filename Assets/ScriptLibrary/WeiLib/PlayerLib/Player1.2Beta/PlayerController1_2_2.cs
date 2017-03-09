@@ -235,8 +235,16 @@ namespace Test1_2
         }
         public void AddForce(params object[] list)
         {
-            if (list[0] is float && list[1] is Vector3){
-                rg.AddForce((float)list[0] * ((Vector3)list[1]).normalized);
+            if (list[0] is float && list[1] is bool && list[2] is Vector3){
+                if ((bool)list[1])
+                {
+                    Vector3 forceDir = ((Vector3)list[2]).normalized;
+                    rg.AddForce((float)list[0] * (transform.right * forceDir.x + transform.up * forceDir.y + transform.forward * forceDir.z));
+                }
+                else
+                {
+                    rg.AddForce((float)list[0] * ((Vector3)list[2]).normalized);
+                }
             }else{
                 Debug.LogError("AddForce have to pass a float and a vector3 as params");
             }

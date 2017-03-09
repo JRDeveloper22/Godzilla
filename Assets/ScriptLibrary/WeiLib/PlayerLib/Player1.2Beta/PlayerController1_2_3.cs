@@ -209,6 +209,7 @@ namespace Test1_2
             //Debug.Log(inCheckRangeIKObjs.Count);
             for (int i = inCheckRangeIKObjs.Count - 1; i >= 0; i--)
             {//iterate backwards by index, removing matching items
+                if (inCheckRangeIKObjs[i] == null) { inCheckRangeIKObjs.RemoveAt(i); continue; }
                 if (!fieldOfView.IfObjectInFieldOfView(inCheckRangeIKObjs[i],true))
                 {
                     inCheckRangeIKObjs[i].TintColor(Color.white);
