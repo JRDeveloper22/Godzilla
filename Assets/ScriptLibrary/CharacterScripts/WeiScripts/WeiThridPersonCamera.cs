@@ -26,7 +26,7 @@ public class WeiThridPersonCamera : MonoBehaviour {
             yaw += Input.GetAxis("RXAxis") * cameraMoveSensitivity;
             pitch -= Input.GetAxis("RYAxis") * cameraMoveSensitivity;
             pitch = Mathf.Clamp(pitch, pitchMinMax.x, pitchMinMax.y);
-            dstToTarget += Input.GetAxis("LTrigger");
+            dstToTarget += Input.GetAxis("Trigger");
             dstToTarget = Mathf.Clamp(dstToTarget, rangeToTarget.x, rangeToTarget.y);
         }
         else {
