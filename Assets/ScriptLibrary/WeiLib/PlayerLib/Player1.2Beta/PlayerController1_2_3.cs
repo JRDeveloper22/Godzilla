@@ -77,20 +77,25 @@ namespace Test1_2
              
         }
 
+        float nexTimePressPickKey = 0.0f;
         void UpdateAnimationSmooth_IK() //call this method from PlayerController1_2_2.
-        {
-            if(isPickKeyDown && !blockMovementInput)
+        {  
+            if (isPickKeyDown && !blockMovementInput)
             {
-                if (currentIKTarget == null)
+                    if (nexTimePressPickKey < Time.time)
                 {
-                    GetClosetIKObject();
-                    StartPickIKTarget();
-                }
-                else
-                {
-                    animator.SetBool("Special", true);
-                    animator.SetInteger("specialType", 2);
-                    Invoke("Throw", 0.5f);
+                    nexTimePressPickKey = Time.time + 0.5f;
+                    if (currentIKTarget == null)
+                    {
+                        GetClosetIKObject();
+                        StartPickIKTarget();
+                    }
+                    else
+                    {
+                        animator.SetBool("Special", true);
+                        animator.SetInteger("specialType", 2);
+                        Invoke("Throw", 0.5f);
+                    }
                 }
             }
         }
@@ -120,6 +125,10 @@ namespace Test1_2
         void StartPickIKTarget()
         {
             if(currentIKTarget == null) { return; }
+
+            blockMovementInput = true;
+            blockAttackAnimation = true;
+
             naveMeshAngent.enabled = true;
             naveMeshAngent.SetDestination(currentIKTarget.closetPointToPlayer);
 
@@ -139,6 +148,8 @@ namespace Test1_2
                 animator.SetBool("Special", true);
                 naveMeshAngent.enabled = false;
                 updateDel -= OnMoveToTarget;
+                blockMovementInput = false;
+                blockAttackAnimation = false;
             }
         }
 
