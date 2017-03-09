@@ -36,9 +36,10 @@ namespace Test1_2
         //Transform rightShouderTransform;
         //Transform leftShoderTRansform;
         public NavMeshAgent naveMeshAngent;
-
+        Player1_2 player;
         void Start3()
         {
+            player = GetComponent<Player1_2>();
             //rightShouderTransform = animator.GetBoneTransform(HumanBodyBones.RightShoulder);
             //leftShoderTRansform = animator.GetBoneTransform(HumanBodyBones.LeftShoulder);
             naveMeshAngent = GetComponent<NavMeshAgent>();
@@ -102,6 +103,7 @@ namespace Test1_2
 
         void Throw()
         {
+            player.PickedUp = false;
             Rigidbody rg = currentIKTarget.gameObject.GetComponent<Rigidbody>();
             if (rg == null)
                 currentIKTarget.gameObject.AddComponent<Rigidbody>().AddForce(hipTransform.forward * 3000);

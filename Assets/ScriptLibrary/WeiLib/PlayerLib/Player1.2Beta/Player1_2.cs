@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Test1_2{
     [RequireComponent(typeof(PlayerController1_2))]
@@ -8,7 +9,9 @@ namespace Test1_2{
     {
 
         PlayerController1_2 pController;
-
+        public Slider PlayerHealth;
+        [HideInInspector]
+        public bool PickedUp;
         public GameObject pickUpHandler;
         public float pickDistance;
         public LayerMask pickUpLayer;
@@ -48,6 +51,7 @@ namespace Test1_2{
             UpdateInputInfo();
             UpdatePlayerControllerInfo();
             UpdateAdditionalAction();
+            PlayerHealth.value = health;
         }
 
         private void FixedUpdate()
@@ -99,6 +103,7 @@ namespace Test1_2{
                     ThrowBuilding();
                     Debug.Log("CheckLogic");
                 }
+                PickedUp = false;
                 pController.throwBuilding = false;
             }
         }
@@ -115,7 +120,7 @@ namespace Test1_2{
         void PickTheBuilding()
         {
             Collider[] cs = Physics.OverlapSphere(transform.position, pickDistance, pickUpLayer);
-
+            PickedUp = true;
             if (cs.Length > 0)
             {
                 if (cs[0].GetComponent<Rigidbody>()) { Destroy(cs[0].GetComponent<Rigidbody>()); }

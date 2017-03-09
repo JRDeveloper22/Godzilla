@@ -6,6 +6,8 @@ public class WeiThridPersonCamera : MonoBehaviour {
 
     public Vector2 pitchMinMax = new Vector2(0, 85);
     public float rotationSmoothTime = 0.5f;
+    public Transform newpos;
+    public Test1_2.Player1_2 player;
     Vector3 rotationSmoothVelocity;
     Vector3 currentRotation;
 
@@ -28,6 +30,7 @@ public class WeiThridPersonCamera : MonoBehaviour {
             pitch = Mathf.Clamp(pitch, pitchMinMax.x, pitchMinMax.y);
             dstToTarget += Input.GetAxis("Trigger");
             dstToTarget = Mathf.Clamp(dstToTarget, rangeToTarget.x, rangeToTarget.y);
+            
         }
         else {
             yaw += Input.GetAxis("Mouse X") * cameraMoveSensitivity;
@@ -39,7 +42,17 @@ public class WeiThridPersonCamera : MonoBehaviour {
 
         currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(pitch, yaw), ref rotationSmoothVelocity, rotationSmoothTime);
         transform.eulerAngles = currentRotation;
-        transform.position = target.position - transform.forward * dstToTarget;
+        
+        if (player.PickedUp == true)
+        {
+            transform.position = newpos.position - transform.forward * dstToTarget;
+           
+        }
+        else
+        {
+           
+            transform.position = target.position - transform.forward * dstToTarget;
+        }
     }
 
     
