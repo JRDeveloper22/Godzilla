@@ -161,17 +161,6 @@ namespace Test1_2{
         }
 
         #endregion
-        public bool checkDamage = false;
-        private void OnCollisionEnter(Collision collision)
-        {
-            if (checkDamage)
-            {
-                if (collision.transform.GetComponent<LivingEntity>())
-                {
-                    collision.transform.GetComponent<LivingEntity>().TakeDamage(10);
-                }
-            }
-        }
 
         private void OnGUI()
         {

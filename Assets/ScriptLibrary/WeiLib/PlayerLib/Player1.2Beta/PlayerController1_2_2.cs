@@ -22,15 +22,15 @@ namespace Test1_2
         public float jumpForceDelayTime = 0.4f;
         public float throwBuildingDelayTime = 1.05f;
 
-        Player1_2 p;
-
         public TrailRenderer trailRenderLeft;
         public TrailRenderer trailRenderRight;
+
+        public bool isAttacking = false;
 
         void Start2() { 
             trailRenderLeft.enabled = false;
             trailRenderRight.enabled = false;
-            p = GetComponent<Player1_2>();
+            
         }
 
         partial void UpdateAnimationSmooth()
@@ -99,8 +99,8 @@ namespace Test1_2
             SwipingEnter,
             PunchEnter,
             Hurricane_kick_Enter,
-            DoDamageToTrue,
-            DoDamageToFalse,
+            AttackToTrue,
+            AttackToFalse,
             RootMotionTrue,
             RootMotionFalse,
             TrailRenderOnLeft,
@@ -152,27 +152,27 @@ namespace Test1_2
         }
         public void PunchEnter()
         {
-            p.checkDamage = true;
+            isAttacking = true;
             WeiAudioManager.instance.PlaySound2D("playerSound");
         }
         public void Hurricane_kick_Enter()
         {
             WeiAudioManager.instance.PlaySound2D("MotionEffect", 1);
-            p.checkDamage = true;
+            isAttacking = true;
 
         }
         public void SetExitHipPosAsPos()
         {
-            p.checkDamage = false;
+            isAttacking = false;
             transform.position = new Vector3(hipTransform.position.x, transform.position.y, hipTransform.position.z);
         }
-        public void DoDamageToTrue()
+        public void AttackToTrue()
         {
-            p.checkDamage = true;
+            isAttacking = true;
         }
-        public void DoDamageToFalse()
+        public void AttackToFalse()
         {
-            p.checkDamage = false;
+            isAttacking = false;
         }
         public void RootMotionTrue()
         {

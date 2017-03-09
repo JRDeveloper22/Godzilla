@@ -17,12 +17,26 @@ using UnityEngine;
 public class PhysicsDamangeResiver : MonoBehaviour {
 
     [HideInInspector]
-    public Test1_2.PlayerController1_2 playerController;
+    public Test1_2.Player1_2 player;
 
     // Use this for initialization
     void Start () {
-        playerController = transform.root.GetComponent<Test1_2.PlayerController1_2>();
+        player = transform.root.GetComponent<Test1_2.Player1_2>();
 	}
+    public void ResiveDamage(DamageEvent damEvent)
+    {
+        player.TakeDamage(damEvent.damage);
+    }
+}
 
-
+public struct DamageEvent
+{
+    public float damage;
+    public DamageEvent(float _damage)
+    {
+        damage = _damage;
+    }
+    //WhatEver other effect. Like the get hit animation Effect.
+    //...
+    //...
 }
