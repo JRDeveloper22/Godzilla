@@ -74,7 +74,8 @@ namespace Test1_2
             }
             if (die)
             {
-                animator.SetBool("die", die);
+                Debug.Log("GetCall");
+                animator.SetBool("Die", die);
             }
 
         }
