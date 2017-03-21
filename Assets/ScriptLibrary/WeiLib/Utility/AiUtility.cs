@@ -314,6 +314,15 @@ namespace AiUtility{
             return false;
         }
 
+        public bool IfObjectInFieldOfViewAngle(Vector3 pos)
+        {
+            if (Vector3.Angle(eye.forward, pos - eye.position) < viewAngle / 2)
+            {
+                return true;
+            }
+            return false;
+        }
+
         bool ScanFromViewEdge(Vector3 originalPos,Vector3 forwarUnnormaledDir,int stepTimes)
         {
 

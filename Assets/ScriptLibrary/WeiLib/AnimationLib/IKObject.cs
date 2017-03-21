@@ -20,6 +20,8 @@ public class IKObject : MonoBehaviour, Ibounds {
     [HideInInspector]
     static Color color;
 
+    IKObjectPhysics ikPhysics;
+
     //represent the 4 top vertices
     public Vector3[] vertices = new Vector3[4];
 
@@ -171,6 +173,26 @@ public class IKObject : MonoBehaviour, Ibounds {
     }
 
     #endregion
+
+    public void StartCollisionCheck(string ignoreTag)
+    {
+        if (ikPhysics == null)
+            ikPhysics = gameObject.AddComponent<IKObjectPhysics>();
+        else
+            ikPhysics.enabled = true;
+        ikPhysics.ignoreTag = ignoreTag;
+
+        Invoke("DisableCollisionChecking", 5.0f);
+    }
+
+    void DisableCollisionChecking()
+    {
+        if (ikPhysics != null)
+        {
+            ikPhysics.enabled = false;
+            ikPhysics.ignoreTag = "";
+        }
+    }
 
     private void OnDrawGizmos()
     {

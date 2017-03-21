@@ -37,6 +37,7 @@ namespace Test1_2
         //Transform leftShoderTRansform;
         public NavMeshAgent naveMeshAngent;
         Player1_2 player;
+        Transform enemyTF;
         void Start3()
         {
             player = GetComponent<Player1_2>();
@@ -44,6 +45,16 @@ namespace Test1_2
             //leftShoderTRansform = animator.GetBoneTransform(HumanBodyBones.LeftShoulder);
             naveMeshAngent = GetComponent<NavMeshAgent>();
             naveMeshAngent.speed = walkSpeed;
+
+            if (player.tag == "player1")
+            {
+                enemyTF = GameObject.FindGameObjectWithTag("player2").transform;
+            }
+            else
+            {
+                enemyTF = GameObject.FindGameObjectWithTag("player1").transform;
+            }
+            
         }
 
 
@@ -73,9 +84,7 @@ namespace Test1_2
                 animator.SetIKPosition(AvatarIKGoal.RightHand, rightHandIKTargetTK.position);
                 animator.SetIKRotationWeight(AvatarIKGoal.RightHand, rightHandRotationWeigt);
                 animator.SetIKRotation(AvatarIKGoal.RightHand, rightHandIKTargetTK.rotation);
-            }
-
-             
+            }  
         }
 
         float nexTimePressPickKey = 0.0f;
@@ -83,7 +92,7 @@ namespace Test1_2
         {  
             if (isPickKeyDown && !blockMovementInput)
             {
-                    if (nexTimePressPickKey < Time.time)
+                if (nexTimePressPickKey < Time.time)
                 {
                     nexTimePressPickKey = Time.time + 0.5f;
                     if (currentIKTarget == null)
@@ -106,18 +115,41 @@ namespace Test1_2
             player.PickedUp = false;
             Rigidbody rg = currentIKTarget.gameObject.GetComponent<Rigidbody>();
             if (rg == null)
-                currentIKTarget.gameObject.AddComponent<Rigidbody>().AddForce(hipTransform.forward * 3000);
+            {
+                rg = currentIKTarget.gameObject.AddComponent<Rigidbody>();
+                if (fieldOfView.IfObjectInFieldOfViewAngle(enemyTF.position))
+                {
+                    Vector3 enemyDir = (enemyTF.position - transform.position).normalized;
+                    rg.AddForce(enemyDir * 3000);
+                }
+                else
+                {
+                    rg.AddForce(hipTransform.forward * 3000);
+                }
+                
+            }
             else
             {
                 rg.velocity = Vector3.zero;
-                rg.AddForce(hipTransform.forward * 3000);
+                if (fieldOfView.IfObjectInFieldOfViewAngle(enemyTF.position))
+                {
+                    Vector3 enemyDir = (enemyTF.position - transform.position).normalized;
+                    rg.AddForce(enemyDir * 3000);
+                }
+                else
+                {
+                    rg.AddForce(hipTransform.forward * 3000);
+                }
+                
             }
 
-            
             currentIKTarget.updateDel -= currentIKTarget.FollowTarget;
+            currentIKTarget.StartCollisionCheck(player.tag);
             currentIKTarget = null;
             leftHandIK = false;
             rightHandIK = false;
+            leftHandIKTargetTF.parent = null;
+            rightHandIKTargetTK.parent = null;
         }
 
         /// <summary>

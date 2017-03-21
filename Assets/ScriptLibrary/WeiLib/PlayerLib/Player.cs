@@ -32,6 +32,8 @@ public class Player : LivingEntity {
     bool isPunchKeyDown = false;
     Vector2 moveInput = Vector2.zero;
 
+    //public string playerID = "";
+
     public override void Start () {
         base.Start();
         pController = GetComponent<PlayerController>();

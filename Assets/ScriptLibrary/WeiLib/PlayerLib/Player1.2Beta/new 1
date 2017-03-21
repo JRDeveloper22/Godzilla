@@ -1,0 +1,3 @@
+lspci -vvnn | grep -A 9 Network 
+
+dpkg --get-selections | grep headers
