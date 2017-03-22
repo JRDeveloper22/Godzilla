@@ -46,13 +46,13 @@ namespace Test1_2
             naveMeshAngent = GetComponent<NavMeshAgent>();
             naveMeshAngent.speed = walkSpeed;
 
-            if (player.tag == "player1")
+            if (player.tag == "Player1")
             {
-                enemyTF = GameObject.FindGameObjectWithTag("player2").transform;
+                enemyTF = GameObject.FindGameObjectWithTag("Player2").transform;
             }
             else
             {
-                enemyTF = GameObject.FindGameObjectWithTag("player1").transform;
+                enemyTF = GameObject.FindGameObjectWithTag("Player1").transform;
             }
             
         }
