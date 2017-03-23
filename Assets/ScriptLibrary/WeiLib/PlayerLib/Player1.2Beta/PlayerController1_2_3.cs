@@ -252,8 +252,7 @@ namespace Test1_2
         /// </summary>
         float nextTimeToUpdateIKObjs = 0.0f;
         void UpdateinRangeIkObjs()
-        {
-            
+        {     
             if (Time.time < nextTimeToUpdateIKObjs) { return; } 
             nextTimeToUpdateIKObjs = Time.time + 0.1f;
             //Debug.Log(inCheckRangeIKObjs.Count);
@@ -276,6 +275,7 @@ namespace Test1_2
         /// </summary>
         public void GetPickUpBuilding()
         {
+			if (currentIKTarget == null) return;
             currentIKTarget.SetAnimatorTargetTF(transform);
 
             leftHandIKTargetTF.transform.position = currentIKTarget.Bounds.ClosestPoint(LeftHandBoneTF.position);
