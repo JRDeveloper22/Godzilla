@@ -11,8 +11,10 @@ namespace Test1_2
         IKObject currentIKTarget;
         //Hand IK parts
         //==========================================
-        public Transform leftHandIKTargetTF;
-        public Transform rightHandIKTargetTK;
+        public GameObject leftHandIKTargetTF;
+		public GameObject rightHandIKTargetTK;
+
+		public GameObject pb;
 
         [HideInInspector]
         public float lefthandPositionWeight = 1;
@@ -73,17 +75,18 @@ namespace Test1_2
         {
             if (leftHandIK)
             {
+				
                 animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, lefthandPositionWeight);
-                animator.SetIKPosition(AvatarIKGoal.LeftHand, leftHandIKTargetTF.position);
+                animator.SetIKPosition(AvatarIKGoal.LeftHand, leftHandIKTargetTF.transform.position);
                 animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, leftHandRotationWeight);
-                animator.SetIKRotation(AvatarIKGoal.LeftHand, leftHandIKTargetTF.rotation);
+				animator.SetIKRotation(AvatarIKGoal.LeftHand, leftHandIKTargetTF.transform.rotation);
             }
             if (rightHandIK)
             {
                 animator.SetIKPositionWeight(AvatarIKGoal.RightHand, rightHandPositionWeight);
-                animator.SetIKPosition(AvatarIKGoal.RightHand, rightHandIKTargetTK.position);
+                animator.SetIKPosition(AvatarIKGoal.RightHand, rightHandIKTargetTK.transform.position);
                 animator.SetIKRotationWeight(AvatarIKGoal.RightHand, rightHandRotationWeigt);
-                animator.SetIKRotation(AvatarIKGoal.RightHand, rightHandIKTargetTK.rotation);
+				animator.SetIKRotation(AvatarIKGoal.RightHand, rightHandIKTargetTK.transform.rotation);
             }  
         }
 
@@ -148,8 +151,8 @@ namespace Test1_2
             currentIKTarget = null;
             leftHandIK = false;
             rightHandIK = false;
-            leftHandIKTargetTF.parent = null;
-            rightHandIKTargetTK.parent = null;
+            leftHandIKTargetTF.transform.parent = null;
+            rightHandIKTargetTK.transform.parent = null;
         }
 
         /// <summary>
@@ -278,11 +281,19 @@ namespace Test1_2
 			if (currentIKTarget == null) return;
             currentIKTarget.SetAnimatorTargetTF(transform);
 
+			if (leftHandIKTargetTF == null) {
+				leftHandIKTargetTF = GameObject.Instantiate(pb);
+			}
+
+			if (rightHandIKTargetTK == null) {
+				rightHandIKTargetTK = GameObject.Instantiate(pb);
+			}
+
             leftHandIKTargetTF.transform.position = currentIKTarget.Bounds.ClosestPoint(LeftHandBoneTF.position);
             rightHandIKTargetTK.transform.position = currentIKTarget.Bounds.ClosestPoint(RightHandBoneTF.position);
             
-            leftHandIKTargetTF.SetParent(currentIKTarget.transform);
-            rightHandIKTargetTK.SetParent(currentIKTarget.transform);
+            leftHandIKTargetTF.transform.SetParent(currentIKTarget.transform);
+            rightHandIKTargetTK.transform.SetParent(currentIKTarget.transform);
 
             currentIKTarget.updateDel -= currentIKTarget.FollowTarget;
             currentIKTarget.updateDel += currentIKTarget.FollowTarget;

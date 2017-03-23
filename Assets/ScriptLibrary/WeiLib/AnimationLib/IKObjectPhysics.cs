@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class IKObjectPhysics : MonoBehaviour {
 
-    public float damageScale = 1.0f;
+    public float damageScale = 4.0f;
     public string ignoreTag = "";
     
     Rigidbody rg;
